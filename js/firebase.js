@@ -60,18 +60,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const nameText = document.querySelector("#user-info-wrapper .username .text-block-20");
 
     if (user) {
+      document.getElementById("login-wrapper").style.display = "none";
+      document.getElementById("user-info-wrapper").style.display = "flex";
+
       const { displayName, photoURL } = user;
 
-      if (loginWrapper) loginWrapper.style.display = "none";
-      if (userInfoWrapper) userInfoWrapper.style.display = "flex";
 
       // Set name and photo
       if (nameText) nameText.textContent = displayName || "User";
       if (avatarImg && photoURL) {
         avatarImg.src = photoURL;
-        avatarImg.removeAttribute("srcset");
-        avatarImg.removeAttribute("sizes");
+//        avatarImg.removeAttribute("srcset");
+//        avatarImg.removeAttribute("sizes");
       }
+
+      document.querySelectorAll(".inline-avatar").forEach(img => {
+        img.src = photoURL;
+        img.removeAttribute("srcset")
+      });
+      document.querySelectorAll(".inline-username").forEach(span => {
+        span.textContent = displayName;
+      });
 
 
     } else {
