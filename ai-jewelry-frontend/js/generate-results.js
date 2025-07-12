@@ -24,10 +24,14 @@ async function generateImageForDiv(div, jewelryType, style, customPrompt, maxRet
       const res = await fetch(API_URL, {
         method: "POST",
         headers: HEADERS,
-        body: JSON.stringify({ input: { jewelry_type: jewelryType, style, custom_prompt: customPrompt } })
+        body: JSON.stringify(
+                            { "input": { "jewelry_type": jewelryType,
+                                        "style": style,
+                                        "custom_prompt": customPrompt } })
       });
 
       const runData = await res.json();
+      console.log(res)
       const jobId = runData.id;
       if (!jobId) throw new Error("No job ID returned.");
 
