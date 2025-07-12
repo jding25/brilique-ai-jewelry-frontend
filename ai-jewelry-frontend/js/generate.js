@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const prevPrompt = localStorage.getItem("customPrompt");
+    const prevStyle = localStorage.getItem("selectedStyle");
+    const prevJewelry = localStorage.getItem("selectedJewelryType");
+    const redirected = localStorage.getItem("redirectedFromGenerate") === "true";
+
+    if (redirected) {
+        window.location.href = "generate-results.html";
+        return;
+    }
+    localStorage.clear();
+
   let selectedJewelryType = "";
   let selectedStyle = "";
 
@@ -42,10 +53,11 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Save selections to sessionStorage (lightweight)
-    sessionStorage.setItem("selectedJewelryType", selectedJewelryType);
-    sessionStorage.setItem("selectedStyle", selectedStyle);
-    sessionStorage.setItem("customPrompt", customPrompt);
+    // Save selections to localStorage (lightweight)
+    localStorage.setItem("selectedJewelryType", selectedJewelryType);
+    localStorage.setItem("selectedStyle", selectedStyle);
+    localStorage.setItem("customPrompt", customPrompt);
+    localStorage.setItem("redirectedFromGenerate", "true");
 
     window.location.href = "generate-results.html";
   });

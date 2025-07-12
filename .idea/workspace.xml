@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="822495be-6f63-48ca-9948-6c1bdff31e3b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-jewelry-frontend/css/ai-jewelry.webflow.css" beforeDir="false" afterPath="$PROJECT_DIR$/ai-jewelry-frontend/css/ai-jewelry.webflow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-jewelry-frontend/generate-results.html" beforeDir="false" afterPath="$PROJECT_DIR$/ai-jewelry-frontend/generate-results.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-jewelry-frontend/js/generate-results.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-jewelry-frontend/js/generate-results.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-jewelry-frontend/js/generate.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-jewelry-frontend/js/generate.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-jewelry-frontend/my-designs.html" beforeDir="false" afterPath="$PROJECT_DIR$/ai-jewelry-frontend/my-designs.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
