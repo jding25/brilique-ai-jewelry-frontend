@@ -1571,6 +1571,7 @@ body {
   width: 100%;
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
 .div-block-3-copy-copy {
@@ -1600,7 +1601,7 @@ body {
   grid-auto-columns: 1fr;
   justify-content: center;
   align-items: stretch;
-  width: auto;
+  width: 100%;
   display: flex;
 }
 
