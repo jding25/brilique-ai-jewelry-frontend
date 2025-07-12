@@ -49,9 +49,15 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
         const base64WithPrefix = imageBase64.startsWith("data:image")
           ? imageBase64
           : `data:image/png;base64,${imageBase64}`;
-
-        const uploadedUrl = await uploadImage(base64WithPrefix);
+        let uploadedUrl;
+        if (localStorage.getItem(divIndex)) {
+             // Prevent duplicate upload
+             uploadedUrl = localStorage.getItem(divIndex);
+           } else {
+             uploadedUrl = await uploadImage(base64WithPrefix);
+           }
         if (uploadedUrl) {
+          localStorage.setItem(divIndex, uploadedUrl);
           img.src = uploadedUrl;
           img.removeAttribute("srcset");
           img.removeAttribute("sizes");
@@ -80,11 +86,6 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
 
 async function generateImageForDiv(div, divIndex, jewelryType, style, customPrompt, productDivs, maxRetries = 3) {
   const img = div.querySelector("img.product-copy");
-
-//  const spinner = document.createElement("div");
-//  spinner.className = "spinner";
-//  img.parentElement.insertBefore(spinner, img);
-//  spinner.style.display = "block";
   img.style.display = "none";
 
   let attempt = 0;
