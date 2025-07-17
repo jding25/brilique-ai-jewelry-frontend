@@ -7,7 +7,7 @@ const HEADERS = {
 
 async function uploadImage(base64Image) {
   try {
-    const res = await fetch("http://localhost:8080/api/designs/upload", {
+    const res = await fetch("http://brilique-ai-jewelry-backend-3.onrender.com/api/designs/upload", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ image: base64Image })
@@ -19,7 +19,7 @@ async function uploadImage(base64Image) {
     }
 
     const url = await res.text();
-    return "http://localhost:8080/" + url;
+    return "http://brilique-ai-jewelry-backend-3.onrender.com/" + url;
   } catch (err) {
     console.error("❌ Failed to upload image", err);
     return null;
