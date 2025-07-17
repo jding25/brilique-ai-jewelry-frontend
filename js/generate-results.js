@@ -86,6 +86,7 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
 
 async function generateImageForDiv(div, divIndex, jewelryType, style, customPrompt, productDivs, maxRetries = 3) {
   const img = div.querySelector("img.product-copy");
+  img.src = "";
   img.style.display = "none";
 
   let attempt = 0;
