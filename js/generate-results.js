@@ -49,23 +49,61 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
         const base64WithPrefix = imageBase64.startsWith("data:image")
           ? imageBase64
           : `data:image/png;base64,${imageBase64}`;
-        let uploadedUrl;
-        if (localStorage.getItem(divIndex)) {
-             // Prevent duplicate upload
-             uploadedUrl = localStorage.getItem(divIndex);
-           } else {
-             uploadedUrl = await uploadImage(base64WithPrefix);
-           }
-        if (uploadedUrl) {
-          localStorage.setItem(divIndex, uploadedUrl);
-          img.src = uploadedUrl;
-          img.removeAttribute("srcset");
-          img.removeAttribute("sizes");
-          img.alt = "Generated Jewelry";
-        } else {
-          img.alt = "Upload failed.";
-          img.src = "images/image-failed-placeholder.png";
+
+      let uploadedUrl;
+      const cachedUrl = localStorage.getItem(divIndex);
+
+      if (cachedUrl) {
+        try {
+          const headRes = await fetch(cachedUrl, { method: "HEAD" });
+          if (headRes.ok) {
+            uploadedUrl = cachedUrl;
+            console.log("✅ Reusing cached URL:", uploadedUrl);
+          } else {
+            console.warn("⚠️ Cached image URL not valid anymore. Re-uploading...");
+            uploadedUrl = await uploadImage(base64WithPrefix);
+          }
+        } catch (err) {
+          console.error("⚠️ Failed to check cached image URL. Re-uploading...", err);
+          uploadedUrl = await uploadImage(base64WithPrefix);
         }
+      } else {
+        uploadedUrl = await uploadImage(base64WithPrefix);
+      }
+
+      if (uploadedUrl) {
+        localStorage.setItem(divIndex, uploadedUrl);
+        img.onerror = () => {
+          console.warn("⚠️ Image failed to load:", uploadedUrl);
+          img.src = "images/image-failed-placeholder.png";
+          img.alt = "Failed to load generated image.";
+        };
+        img.src = uploadedUrl;
+        img.removeAttribute("srcset");
+        img.removeAttribute("sizes");
+        img.alt = "Generated Jewelry";
+      } else {
+        img.alt = "Upload failed.";
+        img.src = "images/image-failed-placeholder.png";
+      }
+
+//        let uploadedUrl;
+//        if (localStorage.getItem(divIndex)) {
+//             // Prevent duplicate upload
+//             uploadedUrl = localStorage.getItem(divIndex);
+//           } else {
+//             uploadedUrl = await uploadImage(base64WithPrefix);
+//           }
+//        if (uploadedUrl) {
+//          localStorage.setItem(divIndex, uploadedUrl);
+//          img.src = uploadedUrl;
+//          img.removeAttribute("srcset");
+//          img.removeAttribute("sizes");
+//          img.alt = "Generated Jewelry";
+//        } else {
+//          img.alt = "Upload failed.";
+//          img.src = "images/image-failed-placeholder.png";
+//        }
 
       } else if (status.status === "FAILED") {
         spinner.remove();
