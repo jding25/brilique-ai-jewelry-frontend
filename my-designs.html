@@ -90,17 +90,17 @@
   document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("my-designs-container");
 
-    fetch("http://localhost:8080/api/designs/list")
+    fetch("https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/list")
       .then(res => res.json())
       .then(files => {
         files.forEach(file => {
           const img = document.createElement("img");
-          img.src = `http://localhost:8080/uploads/${file}`;
+          img.src = `https://brilique-ai-jewelry-backend-4.onrender.com/uploads/${file}`;
           img.alt = "Saved design";
           img.className = "product-copy-copy";
           img.loading = "lazy";
           img.setAttribute("sizes", "(max-width: 640px) 100vw, 640px");
-          img.setAttribute("srcset", `http://localhost:8080/uploads/${file} 500w, http://localhost:8080/uploads/${file} 640w`);
+          img.setAttribute("srcset", `https://brilique-ai-jewelry-backend-4.onrender.com/uploads/${file} 500w, https://brilique-ai-jewelry-backend-4.onrender.com/uploads/${file} 640w`);
           container.appendChild(img);
         });
       })

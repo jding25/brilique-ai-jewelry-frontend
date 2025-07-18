@@ -7,7 +7,7 @@ const HEADERS = {
 
 async function uploadImage(base64Image) {
   try {
-    const res = await fetch("http://brilique-ai-jewelry-backend-3.onrender.com/api/designs/upload", {
+    const res = await fetch("https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/upload", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ image: base64Image })
@@ -19,7 +19,7 @@ async function uploadImage(base64Image) {
     }
 
     const url = await res.text();
-    return "http://brilique-ai-jewelry-backend-3.onrender.com/" + url;
+    return "https://brilique-ai-jewelry-backend-4.onrender.com/" + url;
   } catch (err) {
     console.error("❌ Failed to upload image", err);
     return null;
@@ -49,23 +49,61 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
         const base64WithPrefix = imageBase64.startsWith("data:image")
           ? imageBase64
           : `data:image/png;base64,${imageBase64}`;
-        let uploadedUrl;
-        if (localStorage.getItem(divIndex)) {
-             // Prevent duplicate upload
-             uploadedUrl = localStorage.getItem(divIndex);
-           } else {
-             uploadedUrl = await uploadImage(base64WithPrefix);
-           }
-        if (uploadedUrl) {
-          localStorage.setItem(divIndex, uploadedUrl);
-          img.src = uploadedUrl;
-          img.removeAttribute("srcset");
-          img.removeAttribute("sizes");
-          img.alt = "Generated Jewelry";
-        } else {
-          img.alt = "Upload failed.";
-          img.src = "images/image-failed-placeholder.png";
+
+      let uploadedUrl;
+      const cachedUrl = localStorage.getItem(divIndex);
+
+      if (cachedUrl) {
+        try {
+          const headRes = await fetch(cachedUrl, { method: "HEAD" });
+          if (headRes.ok) {
+            uploadedUrl = cachedUrl;
+            console.log("✅ Reusing cached URL:", uploadedUrl);
+          } else {
+            console.warn("⚠️ Cached image URL not valid anymore. Re-uploading...");
+            uploadedUrl = await uploadImage(base64WithPrefix);
+          }
+        } catch (err) {
+          console.error("⚠️ Failed to check cached image URL. Re-uploading...", err);
+          uploadedUrl = await uploadImage(base64WithPrefix);
         }
+      } else {
+        uploadedUrl = await uploadImage(base64WithPrefix);
+      }
+
+      if (uploadedUrl) {
+        localStorage.setItem(divIndex, uploadedUrl);
+        img.onerror = () => {
+          console.warn("⚠️ Image failed to load:", uploadedUrl);
+          img.src = "images/image-failed-placeholder.png";
+          img.alt = "Failed to load generated image.";
+        };
+        img.src = uploadedUrl;
+        img.removeAttribute("srcset");
+        img.removeAttribute("sizes");
+        img.alt = "Generated Jewelry";
+      } else {
+        img.alt = "Upload failed.";
+        img.src = "images/image-failed-placeholder.png";
+      }
+
+//        let uploadedUrl;
+//        if (localStorage.getItem(divIndex)) {
+//             // Prevent duplicate upload
+//             uploadedUrl = localStorage.getItem(divIndex);
+//           } else {
+//             uploadedUrl = await uploadImage(base64WithPrefix);
+//           }
+//        if (uploadedUrl) {
+//          localStorage.setItem(divIndex, uploadedUrl);
+//          img.src = uploadedUrl;
+//          img.removeAttribute("srcset");
+//          img.removeAttribute("sizes");
+//          img.alt = "Generated Jewelry";
+//        } else {
+//          img.alt = "Upload failed.";
+//          img.src = "images/image-failed-placeholder.png";
+//        }
 
       } else if (status.status === "FAILED") {
         spinner.remove();
@@ -86,6 +124,7 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
 
 async function generateImageForDiv(div, divIndex, jewelryType, style, customPrompt, productDivs, maxRetries = 3) {
   const img = div.querySelector("img.product-copy");
+  img.src = "";
   img.style.display = "none";
 
   let attempt = 0;
