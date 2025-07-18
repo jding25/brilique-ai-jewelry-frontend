@@ -439,7 +439,7 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
           img.src = uploadedUrl;
           img.removeAttribute("srcset");
           img.removeAttribute("sizes");
-          img.alt = "Generated Jewelry";
+          img.alt = "Loading Generated Jewelry";
         } else {
           img.alt = "Upload failed.";
           img.src = "images/image-failed-placeholder.png";
