@@ -50,7 +50,10 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
           ? imageBase64
           : `data:image/png;base64,${imageBase64}`;
         let uploadedUrl = localStorage.getItem(divIndex);
-
+        img.style.display = "none";  // prevent flicker
+        img.onload = () => {
+          img.style.display = "block";  // show only after image loads
+        };
         img.onerror = async () => {
           console.warn("⚠️ Cached image failed to load. Re-uploading:", uploadedUrl);
           uploadedUrl = await uploadImage(base64WithPrefix);
