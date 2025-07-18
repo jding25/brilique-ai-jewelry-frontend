@@ -95,12 +95,12 @@
       .then(files => {
         files.forEach(file => {
           const img = document.createElement("img");
-          img.src = `http://localhost:8080/uploads/${file}`;
+          img.src = `http://brilique-ai-jewelry-backend-4.onrender.com/uploads/${file}`;
           img.alt = "Saved design";
           img.className = "product-copy-copy";
           img.loading = "lazy";
           img.setAttribute("sizes", "(max-width: 640px) 100vw, 640px");
-          img.setAttribute("srcset", `https://brilique-ai-jewelry-backend-4.onrender.com/uploads/${file} 500w, http://localhost:8080/uploads/${file} 640w`);
+          img.setAttribute("srcset", `https://brilique-ai-jewelry-backend-4.onrender.com/uploads/${file} 500w, http://brilique-ai-jewelry-backend-4.onrender.com/uploads/${file} 640w`);
           container.appendChild(img);
         });
       })
