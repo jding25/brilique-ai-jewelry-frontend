@@ -49,58 +49,59 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
         const base64WithPrefix = imageBase64.startsWith("data:image")
           ? imageBase64
           : `data:image/png;base64,${imageBase64}`;
-        let uploadedUrl = localStorage.getItem(divIndex);
-        img.style.display = "none";  // prevent flicker
-        img.onload = () => {
-          img.style.display = "block";  // show only after image loads
-        };
-        img.onerror = async () => {
-          console.warn("⚠️ Cached image failed to load. Re-uploading:", uploadedUrl);
-          uploadedUrl = await uploadImage(base64WithPrefix);
-          if (uploadedUrl) {
-            localStorage.setItem(divIndex, uploadedUrl);
-            img.src = uploadedUrl;
-            img.alt = "Generated Jewelry";
-          } else {
-            img.src = "images/image-failed-placeholder.png";
-            img.alt = "Upload failed.";
-          }
-        };
 
-        if (!uploadedUrl) {
-          uploadedUrl = await uploadImage(base64WithPrefix);
-          if (uploadedUrl) {
-            localStorage.setItem(divIndex, uploadedUrl);
-          } else {
-            img.src = "images/image-failed-placeholder.png";
-            img.alt = "Upload failed.";
-            return;
-          }
-        }
-
-        img.src = uploadedUrl;
-        img.removeAttribute("srcset");
-        img.removeAttribute("sizes");
-        img.alt = "Generated Jewelry";
-
-
-//        let uploadedUrl;
-//        if (localStorage.getItem(divIndex)) {
-//             // Prevent duplicate upload
-//             uploadedUrl = localStorage.getItem(divIndex);
-//           } else {
-//             uploadedUrl = await uploadImage(base64WithPrefix);
-//           }
-//        if (uploadedUrl) {
-//          localStorage.setItem(divIndex, uploadedUrl);
-//          img.src = uploadedUrl;
-//          img.removeAttribute("srcset");
-//          img.removeAttribute("sizes");
-//          img.alt = "Generated Jewelry";
-//        } else {
-//          img.alt = "Upload failed.";
-//          img.src = "images/image-failed-placeholder.png";
+//        let uploadedUrl = localStorage.getItem(divIndex);
+//        img.style.display = "none";  // prevent flicker
+//        img.onload = () => {
+//          img.style.display = "block";  // show only after image loads
+//        };
+//        img.onerror = async () => {
+//          console.warn("⚠️ Cached image failed to load. Re-uploading:", uploadedUrl);
+//          uploadedUrl = await uploadImage(base64WithPrefix);
+//          if (uploadedUrl) {
+//            localStorage.setItem(divIndex, uploadedUrl);
+//            img.src = uploadedUrl;
+//            img.alt = "Generated Jewelry";
+//          } else {
+//            img.src = "images/image-failed-placeholder.png";
+//            img.alt = "Upload failed.";
+//          }
+//        };
+//
+//        if (!uploadedUrl) {
+//          uploadedUrl = await uploadImage(base64WithPrefix);
+//          if (uploadedUrl) {
+//            localStorage.setItem(divIndex, uploadedUrl);
+//          } else {
+//            img.src = "images/image-failed-placeholder.png";
+//            img.alt = "Upload failed.";
+//            return;
+//          }
 //        }
+//
+//        img.src = uploadedUrl;
+//        img.removeAttribute("srcset");
+//        img.removeAttribute("sizes");
+//        img.alt = "Generated Jewelry";
+
+
+        let uploadedUrl;
+        if (localStorage.getItem(divIndex)) {
+             // Prevent duplicate upload
+             uploadedUrl = localStorage.getItem(divIndex);
+           } else {
+             uploadedUrl = await uploadImage(base64WithPrefix);
+           }
+        if (uploadedUrl) {
+          localStorage.setItem(divIndex, uploadedUrl);
+          img.src = uploadedUrl;
+          img.removeAttribute("srcset");
+          img.removeAttribute("sizes");
+          img.alt = "Generated Jewelry";
+        } else {
+          img.alt = "Upload failed.";
+          img.src = "images/image-failed-placeholder.png";
+        }
 
       } else if (status.status === "FAILED") {
         spinner.remove();
