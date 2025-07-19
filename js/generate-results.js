@@ -1,12 +1,23 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAVuyDg3JuEeYPesCdQubz0gNQPH6U9KU0",
+  authDomain: "brilique-3ae3b.firebaseapp.com",
+  projectId: "brilique-3ae3b",
+  storageBucket: "brilique-3ae3b.appspot.com",
+  messagingSenderId: "622180990908",
+  appId: "1:622180990908:web:65204b3249eedf13b475b9",
+  measurementId: "G-QMS5PFKFWG"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+
 const API_URL = "https://api.runpod.ai/v2/ipw9i6om7ahag6/run";
 const STATUS_URL = "https://api.runpod.ai/v2/ipw9i6om7ahag6/status/";
 const HEADERS = {
   'Content-Type': 'application/json',
   'Authorization': 'Bearer rpa_S1AKUXS4YH0V5XI9T1DO54YHOM71NRPV8OKGPOYNlpzoub'
 };
-import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-const auth = getAuth();
-
 async function uploadImage(base64Image, prompt, style, jewelryType, enhancedPrompt) {
   const user = auth.currentUser;
   if (!user) {

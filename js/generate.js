@@ -1,4 +1,15 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAVuyDg3JuEeYPesCdQubz0gNQPH6U9KU0",
+  authDomain: "brilique-3ae3b.firebaseapp.com",
+  projectId: "brilique-3ae3b",
+  storageBucket: "brilique-3ae3b.appspot.com",
+  messagingSenderId: "622180990908",
+  appId: "1:622180990908:web:65204b3249eedf13b475b9",
+  measurementId: "G-QMS5PFKFWG"
+};
+const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 document.addEventListener("DOMContentLoaded", function () {
     const user = auth.currentUser;
