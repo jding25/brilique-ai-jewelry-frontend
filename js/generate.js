@@ -12,12 +12,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 document.addEventListener("DOMContentLoaded", function () {
-    const user = auth.currentUser;
-      if (!user) {
-        alert("You must be signed in to use the generator.");
-        window.location.href = "/";
-        return;
-      }
+     onAuthStateChanged(auth, function(user) {
+        if (!user) {
+          alert("You must be signed in to use the generator.");
+          return;
+        }
     const prevPrompt = localStorage.getItem("customPrompt");
     const prevStyle = localStorage.getItem("selectedStyle");
     const prevJewelry = localStorage.getItem("selectedJewelryType");
@@ -29,8 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     localStorage.clear();
 
-  let selectedJewelryType = "";
-  let selectedStyle = "";
+    let selectedJewelryType = "";
+    let selectedStyle = "";
 
   // Jewelry type selection
   document.querySelectorAll(".category-card").forEach(card => {
@@ -80,4 +79,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.location.href = "generate-results.html";
   });
+})
 });
