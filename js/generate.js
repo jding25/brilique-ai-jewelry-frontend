@@ -16,19 +16,22 @@ const auth = getAuth(app);
 
 document.addEventListener("DOMContentLoaded", function () {
   onAuthStateChanged(auth, function(user) {
-    if (!user) {
-      alert("You must be signed in to use the generator.");
-      return;
-    }
-
+//    if (!user) {
+//      alert("You must be signed in to use the generator.");
+//      return;
+//    }
     const prevPrompt = localStorage.getItem("customPrompt");
     const prevStyle = localStorage.getItem("selectedStyle");
     const prevJewelry = localStorage.getItem("selectedJewelryType");
     const redirected = localStorage.getItem("redirectedFromGenerate") === "true";
 
-    if (redirected) {
-      window.location.href = "generate-results.html";
-      return;
+    if (redirected && user) {
+         window.location.href = "generate-results.html";
+         return;
+    }
+    if (redirected && (!user)) {
+        alert("You must be signed in to use the generator.");
+        return;
     }
     localStorage.clear();
 
