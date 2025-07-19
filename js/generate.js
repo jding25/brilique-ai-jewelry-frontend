@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // --- user is signed in; proceed ---
     const prevPrompt = localStorage.getItem("customPrompt");
     const prevStyle = localStorage.getItem("selectedStyle");
     const prevJewelry = localStorage.getItem("selectedJewelryType");
