@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (redirected && user) {
          window.location.href = "generate-results.html";
+         localStorage.setItem("redirectedFromGenerate", "false");
          return;
     }
     if (redirected && (!user)) {
