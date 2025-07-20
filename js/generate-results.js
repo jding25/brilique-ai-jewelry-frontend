@@ -56,6 +56,7 @@ async function uploadImage(base64Image, prompt, style, jewelryType, enhancedProm
     console.log(res);
 
     const data = await res.json();
+    console.log("this is data ", data);
     const url = data.imageUrl;
     console.log("this is url");
     console.log(url);
