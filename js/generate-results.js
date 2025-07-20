@@ -29,7 +29,7 @@ async function uploadImage(base64Image, prompt, style, jewelryType, enhancedProm
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-          image: base64Image,
+          imageBase64: base64Image,
           prompt: prompt,
           style: style,
           type: jewelryType,
