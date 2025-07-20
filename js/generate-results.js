@@ -44,7 +44,8 @@ async function uploadImage(base64Image, prompt, style, jewelryType, enhancedProm
     }
 
     const url = await res.text();
-    return "https://brilique-ai-jewelry-backend-4.onrender.com/" + url;
+    console.log(url);
+    return url;
   } catch (err) {
     console.error("❌ Failed to upload image", err);
     return null;
