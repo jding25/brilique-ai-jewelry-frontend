@@ -24,6 +24,17 @@ async function uploadImage(base64Image, prompt, style, jewelryType, enhancedProm
     alert("You must be signed in to upload images.");
     return null;
   }
+  console.log("user: ", user);
+  console.log("base64Image.length:", base64Image.length);
+  console.log("userPrompt:", prompt);
+  console.log("Uploading to backend with:", {
+    imageBase64: base64Image.slice(0, 100), // trimmed
+    userPrompt: prompt,
+    style,
+    type: jewelryType,
+    enhancedPrompt,
+    userId: user.email
+  });
   try {
     const res = await fetch("https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/upload", {
       method: "POST",
@@ -47,7 +58,9 @@ async function uploadImage(base64Image, prompt, style, jewelryType, enhancedProm
     const url = await res.text();
     console.log("this is res.text()");
     console.log(url);
-    return url;
+//    return url;
+    return "https://brilique-ai-jewelry-backend-4.onrender.com/" + url;
+
   } catch (err) {
     console.error("❌ Failed to upload image", err);
     return null;
