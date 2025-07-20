@@ -37,13 +37,15 @@ async function uploadImage(base64Image, prompt, style, jewelryType, enhancedProm
           userId: user.email
         })
     });
-
     if (!res.ok) {
       const text = await res.text();
       throw new Error(`Server responded with ${res.status}: ${text}`);
     }
+    console.log("this is res");
+    console.log(res);
 
     const url = await res.text();
+    console.log("this is res.text()");
     console.log(url);
     return url;
   } catch (err) {
@@ -97,6 +99,7 @@ async function pollForResultAndRender(jobId, divIndex, productDivs, customPrompt
           : `data:image/png;base64,${imageBase64}`;
 
         const uploadedUrl = await uploadImage(base64WithPrefix, customPrompt, style, jewelryType, enhancedPrompt);
+        console.log("uploadedUrl: ", uploadedUrl);
         if (uploadedUrl) {
           localStorage.setItem(divIndex, uploadedUrl);
           img.src = uploadedUrl;
