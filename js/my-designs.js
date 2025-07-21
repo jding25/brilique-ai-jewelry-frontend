@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //         const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(email)}`;
 
 //        const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(userId)}`;
-        const url = "https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user/jding25berkeleyedu";
+        const url = "https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=jding25berkeleyedu";
         console.log("this is url: ", url);
         const res = await fetch(url);
         if (!res.ok) {
