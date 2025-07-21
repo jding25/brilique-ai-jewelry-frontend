@@ -1,40 +1,101 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAVuyDg3JuEeYPesCdQubz0gNQPH6U9KU0",
+  authDomain: "brilique-3ae3b.firebaseapp.com",
+  projectId: "brilique-3ae3b",
+  storageBucket: "brilique-3ae3b.appspot.com",
+  messagingSenderId: "622180990908",
+  appId: "1:622180990908:web:65204b3249eedf13b475b9",
+  measurementId: "G-QMS5PFKFWG"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+
 const API_URL = "https://api.runpod.ai/v2/ipw9i6om7ahag6/run";
 const STATUS_URL = "https://api.runpod.ai/v2/ipw9i6om7ahag6/status/";
 const HEADERS = {
   'Content-Type': 'application/json',
   'Authorization': 'Bearer rpa_S1AKUXS4YH0V5XI9T1DO54YHOM71NRPV8OKGPOYNlpzoub'
 };
-
-async function uploadImage(base64Image) {
+async function uploadImage(base64Image, prompt, style, jewelryType, enhancedPrompt) {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("You must be signed in to upload images.");
+    return null;
+  }
+  console.log("user: ", user);
+  console.log("base64Image.length:", base64Image.length);
+  console.log("userPrompt:", prompt);
+  console.log("Uploading to backend with:", {
+    imageBase64: base64Image.slice(0, 100), // trimmed
+    userPrompt: prompt,
+    style,
+    type: jewelryType,
+    enhancedPrompt,
+    userId: user.email
+  });
   try {
     const res = await fetch("https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/upload", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ image: base64Image })
+      body: JSON.stringify({
+          imageBase64: base64Image,
+          userPrompt: prompt,
+          style: style,
+          type: jewelryType,
+          enhancedPrompt: enhancedPrompt,
+          userId: user.email
+        })
     });
-
     if (!res.ok) {
       const text = await res.text();
+      console.log(res);
+      console.log(res.text());
       throw new Error(`Server responded with ${res.status}: ${text}`);
     }
+    console.log("this is res");
+    console.log(res);
 
-    const url = await res.text();
-    return "https://brilique-ai-jewelry-backend-4.onrender.com/" + url;
+    const data = await res.json();
+    console.log("this is data ", data);
+    const url = data.imageUrl;
+    console.log("this is url");
+    console.log(url);
+    return url;
+
   } catch (err) {
     console.error("❌ Failed to upload image", err);
     return null;
   }
 }
 
-async function pollForResultAndRender(jobId, divIndex, productDivs) {
+async function pollForResultAndRender(jobId, divIndex, productDivs, customPrompt, style, jewelryType) {
   const div = productDivs[divIndex];
   const img = div.querySelector("img.product-copy");
 
-  const spinner = document.createElement("div");
-  spinner.className = "spinner";
-  img.parentElement.insertBefore(spinner, img);
-  spinner.style.display = "block";
+  // Check if we already have a cached result
+  const cachedUrl = localStorage.getItem(divIndex);
+  if (cachedUrl) {
+    img.src = cachedUrl;
+    img.removeAttribute("srcset");
+    img.removeAttribute("sizes");
+    img.alt = "Generated Jewelry";
+    img.style.display = "block";
+    return;
+  }
+
+  // Hide the image immediately to prevent original placeholder from showing
   img.style.display = "none";
+
+  // Create and show spinner
+  let spinner = div.querySelector(".spinner");
+  if (!spinner) {
+    spinner = document.createElement("div");
+    spinner.className = "spinner";
+    img.parentElement.insertBefore(spinner, img);
+  }
+  spinner.style.display = "block";
 
   async function poll() {
     try {
@@ -46,64 +107,25 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
         img.style.display = "block";
 
         const imageBase64 = status.output?.image_path;
+        const enhancedPrompt = status.output?.prompt;
+        console.log("enhanced prompt is: ");
+        console.log(enhancedPrompt);
         const base64WithPrefix = imageBase64.startsWith("data:image")
           ? imageBase64
           : `data:image/png;base64,${imageBase64}`;
 
-      let uploadedUrl;
-      const cachedUrl = localStorage.getItem(divIndex);
-
-      if (cachedUrl) {
-        try {
-          const headRes = await fetch(cachedUrl, { method: "HEAD" });
-          if (headRes.ok) {
-            uploadedUrl = cachedUrl;
-            console.log("✅ Reusing cached URL:", uploadedUrl);
-          } else {
-            console.warn("⚠️ Cached image URL not valid anymore. Re-uploading...");
-            uploadedUrl = await uploadImage(base64WithPrefix);
-          }
-        } catch (err) {
-          console.error("⚠️ Failed to check cached image URL. Re-uploading...", err);
-          uploadedUrl = await uploadImage(base64WithPrefix);
-        }
-      } else {
-        uploadedUrl = await uploadImage(base64WithPrefix);
-      }
-
-      if (uploadedUrl) {
-        localStorage.setItem(divIndex, uploadedUrl);
-        img.onerror = () => {
-          console.warn("⚠️ Image failed to load:", uploadedUrl);
+        const uploadedUrl = await uploadImage(base64WithPrefix, customPrompt, style, jewelryType, enhancedPrompt);
+        console.log("uploadedUrl: ", uploadedUrl);
+        if (uploadedUrl) {
+          localStorage.setItem(divIndex, uploadedUrl);
+          img.src = uploadedUrl;
+          img.removeAttribute("srcset");
+          img.removeAttribute("sizes");
+          img.alt = "Loading Generated Jewelry";
+        } else {
+          img.alt = "Upload failed.";
           img.src = "images/image-failed-placeholder.png";
-          img.alt = "Failed to load generated image.";
-        };
-        img.src = uploadedUrl;
-        img.removeAttribute("srcset");
-        img.removeAttribute("sizes");
-        img.alt = "Generated Jewelry";
-      } else {
-        img.alt = "Upload failed.";
-        img.src = "images/image-failed-placeholder.png";
-      }
-
-//        let uploadedUrl;
-//        if (localStorage.getItem(divIndex)) {
-//             // Prevent duplicate upload
-//             uploadedUrl = localStorage.getItem(divIndex);
-//           } else {
-//             uploadedUrl = await uploadImage(base64WithPrefix);
-//           }
-//        if (uploadedUrl) {
-//          localStorage.setItem(divIndex, uploadedUrl);
-//          img.src = uploadedUrl;
-//          img.removeAttribute("srcset");
-//          img.removeAttribute("sizes");
-//          img.alt = "Generated Jewelry";
-//        } else {
-//          img.alt = "Upload failed.";
-//          img.src = "images/image-failed-placeholder.png";
-//        }
+        }
 
       } else if (status.status === "FAILED") {
         spinner.remove();
@@ -124,8 +146,29 @@ async function pollForResultAndRender(jobId, divIndex, productDivs) {
 
 async function generateImageForDiv(div, divIndex, jewelryType, style, customPrompt, productDivs, maxRetries = 3) {
   const img = div.querySelector("img.product-copy");
-  img.src = "";
+
+  // Check if we already have a cached result
+  const cachedUrl = localStorage.getItem(divIndex);
+  if (cachedUrl) {
+    img.src = cachedUrl;
+    img.removeAttribute("srcset");
+    img.removeAttribute("sizes");
+    img.alt = "Generated Jewelry";
+    img.style.display = "block";
+    return;
+  }
+
+  // Hide the image immediately to prevent original placeholder from showing
   img.style.display = "none";
+
+  // Create and show spinner
+  let spinner = div.querySelector(".spinner");
+  if (!spinner) {
+    spinner = document.createElement("div");
+    spinner.className = "spinner";
+    img.parentElement.insertBefore(spinner, img);
+  }
+  spinner.style.display = "block";
 
   let attempt = 0;
 
@@ -146,10 +189,18 @@ async function generateImageForDiv(div, divIndex, jewelryType, style, customProm
       jobs.push({ id: jobId, divIndex });
       localStorage.setItem("generationJobs", JSON.stringify(jobs));
 
-      return await pollForResultAndRender(jobId, divIndex, productDivs);
+      return await pollForResultAndRender(jobId, divIndex, productDivs, customPrompt, style, jewelryType);
     } catch (error) {
       console.warn(`Attempt ${attempt} failed:`, error);
-      if (attempt < maxRetries) return await submitAndPoll();
+      if (attempt < maxRetries) {
+        return await submitAndPoll();
+      } else {
+        // Show error state if all retries failed
+        spinner.remove();
+        img.style.display = "block";
+        img.alt = "Generation failed after retries.";
+        img.src = "images/image-failed-placeholder.png";
+      }
     }
   }
 
@@ -176,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (savedJobs.length > 0) {
       savedJobs.forEach(job => {
-        pollForResultAndRender(job.id, job.divIndex, productDivs);
+        pollForResultAndRender(job.id, job.divIndex, productDivs, customPrompt, style, jewelryType);
       });
     } else {
       if (!jewelryType && !style && !customPrompt) {
