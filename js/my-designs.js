@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (user) {
       const userId = user.email;
       try {
-        const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user/${encodeURIComponent(userId)}`
+        const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(userId)}`
         console.log("this is url: ", url);
         const res = await fetch(url);
         console.log("this is userId: ", userId);
