@@ -25,6 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = "https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=jding25@berkeley.edu";
         console.log("this is url: ", url);
         const res = await fetch(url);
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(`Backend ${res.status}: ${errText}`);
+        }
         console.log("this is userId: ", userId);
         const designs = await res.json();
         designs.forEach(design => {
