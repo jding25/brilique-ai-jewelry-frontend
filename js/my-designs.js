@@ -24,11 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await fetch(`https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user/${encodeURIComponent(userId)}`);
         console.log("this is userId: ", userId);
         const designs = await res.json();
-
-        console.log(designs);
-
         designs.forEach(design => {
           const img = document.createElement("img");
+          console.log("this is img.src", img.src);
           img.src = design.imageUrl;
           img.alt = "Saved design";
           img.className = "product-copy-copy";
