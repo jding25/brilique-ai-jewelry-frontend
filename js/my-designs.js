@@ -22,7 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const userId = user.email;
       try {
         const res = await fetch(`https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user/${encodeURIComponent(userId)}`);
+        console.log("this is userId: ", userId);
         const designs = await res.json();
+
+        console.log(designs);
 
         designs.forEach(design => {
           const img = document.createElement("img");
