@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (nameText) nameText.textContent = displayName || "User";
       if (avatarImg && photoURL) {
         avatarImg.src = photoURL;
+        avatarImg.srcset = photoURL;
       }
 
       document.querySelectorAll(".inline-avatar").forEach(img => {
