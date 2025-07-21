@@ -21,10 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (user) {
       const userId = user.email;
       try {
-        const email = "jding25@berkeley.edu";
-        const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(email)}`;
+//        const email = "jding25@berkeley.edu";
+//        const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(email)}`;
 
-//        const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(userId)}`;
+        const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(userId)}`;
 //        const url = "https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=jding25berkeleyedu";
         console.log("this is url: ", url);
         const res = await fetch(url);
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("this is userId: ", userId);
         const designs = await res.json();
         designs.forEach(design => {
-          const img = document.createElement("img");
+          const img = document.createElement("img")
           console.log("this is img.src", img.src);
           img.src = design.imageUrl;
           img.alt = "Saved design";
