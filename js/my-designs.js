@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (user) {
       const userId = user.email;
       try {
-         const email = "jding25@berkeley.edu";
-         const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(email)}`;
+//         const email = "jding25@berkeley.edu";
+//         const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(email)}`;
 
 //        const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=${encodeURIComponent(userId)}`;
-//        const url = "https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=jding25@berkeley.edu";
+        const url = "https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/user?userId=jding25@berkeley.edu";
         console.log("this is url: ", url);
         const res = await fetch(url);
         if (!res.ok) {
