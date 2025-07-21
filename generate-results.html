@@ -252,5 +252,24 @@
     document.getElementById("auth-modal").style.display = "block";
   });
 </script>
+  <script>
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      const { displayName, photoURL } = user;
+
+      // Update the six product divs
+      document.querySelectorAll(".single-product-copy").forEach(div => {
+        const nameDiv = div.querySelector(".div-block-4-copy > div:last-child");
+        const photoImg = div.querySelector(".div-block-3-copy > img");
+        if (nameDiv) nameDiv.textContent = displayName;
+        if (photoImg) {
+        photoImg.src = photoURL;
+        photoImg.srcset = photoURL;
+        }
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
