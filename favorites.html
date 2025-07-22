@@ -87,7 +87,35 @@
           <div class="username">
             <div class="text-block-20">Hengmo Hu</div>
           </div>
-          <div class="menu-icon"><img src="images/ellipsis-vertical.svg" loading="lazy" alt=""></div>
+<!--          <div class="menu-icon"><img src="images/ellipsis-vertical.svg" loading="lazy" alt=""></div>-->
+          <div class="menu-icon" style="position: relative;">
+            <img src="images/ellipsis-vertical.svg" id="menuToggle" style="cursor:pointer;" alt="Menu">
+
+            <!-- Hidden menu -->
+            <div id="userMenu" style="
+    display: none;
+    position: absolute;
+    top: 24px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  ">
+              <div id="logoutBtn" style="
+  cursor: pointer;
+  color: #333;
+  white-space: nowrap;
+  padding: 5px 10px;
+">
+                Log Out
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

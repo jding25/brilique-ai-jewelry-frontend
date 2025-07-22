@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         avatarImg.srcset = photoURL;
       }
 
+
       document.querySelectorAll(".inline-avatar").forEach(img => {
         img.src = photoURL;
         img.removeAttribute("srcset")
