@@ -44,15 +44,15 @@ wrapper.style.position = 'relative';
 wrapper.style.display = 'inline-block';
 
 const img = document.createElement('img');
-img.src = imageUrl;
-img.srcset = imageUrl;
+img.src = design.imageUrl;
+img.srcset = design.imageUrl;
 img.style.maxWidth = '100%';
 img.style.borderRadius = '10px';
 img.style.cursor = 'pointer';
 img.addEventListener('click', () => openModal(imageUrl));
 
 const downloadBtn = document.createElement('a');
-downloadBtn.href = imageUrl;
+downloadBtn.href = design.imageUrl;
 downloadBtn.download = 'downloaded-design.png';
 downloadBtn.style.position = 'absolute';
 downloadBtn.style.top = '10px';
