@@ -1553,6 +1553,7 @@ body {
   margin-right: auto;
   padding-right: 0;
   display: flex;
+  padding: 20px;
 }
 
 .market-wrapper-copy-copy {
