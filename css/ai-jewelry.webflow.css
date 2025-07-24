@@ -1163,12 +1163,14 @@ body {
   background-image: linear-gradient(135deg, #7f00ff, #e100ff 49%, #e100ff);
   border-radius: 10px;
   flex-flow: column;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   min-height: auto;
   margin: 10px;
   display: flex;
+  height:100vh;
 }
 
 .main-page-copy {
@@ -1529,6 +1531,7 @@ body {
   flex-flow: row;
   height: 100vh;
   display: flex;
+  overflow: hidden;
 }
 
 .main-page-copy-copy {
@@ -1538,7 +1541,9 @@ body {
   background-color: #fff3;
   border-radius: 10px;
   flex-flow: column;
-  flex: 0 auto;
+  flex: 1;
+  overflow-y: auto; /* Enable scrolling */
+  overflow-x: hidden;
   justify-content: center;
   align-items: center;
   width: auto;
