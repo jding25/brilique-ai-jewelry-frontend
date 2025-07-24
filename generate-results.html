@@ -290,19 +290,19 @@
     <!-- Set this div to relative so absolute items inside it pin to the image -->
     <div style="
         position:relative;
-        width:60%;
-        height:60%;
-        display:flex;
-        align-items:center;
-        justify-content:center;
+        max-width:90vw;
+        max-height:90vh;
+        display: inline-block;
       ">
       <!-- Your image -->
-      <img id="modal-img" src="" alt="Full-size" style="max-width: 100%; max-height: 100%; border-radius: 10px; display: block; object-fit:contain;">
+      <img id="modal-img" src="" alt="Full-size" style="width: 100%; height: auto; border-radius: 10px; display: block;">
       <!-- Download icon pinned to top-right of image -->
       <a id="download-btn" download style="
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 15px;
+      right: 15px;
+      width: 44px;
+      height: 44px;
       background: transparent;
       border: none;
       cursor: pointer;
@@ -311,7 +311,6 @@
       align-items: center;
       justify-content: center;
       border-radius:5px;
-      transform:translate(50%, -50%);
     ">
         <svg width="40px" height="40px" viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.5535 16.5061C12.4114 16.6615 12.2106 16.75 12 16.75C11.7894 16.75 11.5886 16.6615 11.4465 16.5061L7.44648 12.1311C7.16698 11.8254 7.18822 11.351 7.49392 11.0715C7.79963 10.792 8.27402 10.8132 8.55352 11.1189L11.25 14.0682V3C11.25 2.58579 11.5858 2.25 12 2.25C12.4142 2.25 12.75 2.58579 12.75 3V14.0682L15.4465 11.1189C15.726 10.8132 16.2004 10.792 16.5061 11.0715C16.8118 11.351 16.833 11.8254 16.5535 12.1311L12.5535 16.5061Z" fill="#1C274C"/>
