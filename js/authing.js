@@ -42,5 +42,6 @@ console.log("guard instance: ", guard);
 
 
 document.querySelector('#loginWithRedirect').onclick = function () {
+console.log("Login with redirect triggered");
 guard.startWithRedirect();
 }
