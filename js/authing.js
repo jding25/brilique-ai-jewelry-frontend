@@ -93,4 +93,4 @@ document.querySelector('#loginWithRedirect').onclick = function () {
 //    guard.logout().then(() => {
 //        location.reload(); // Reset the page
 //    });
-}
+//}
