@@ -35,13 +35,12 @@
 window.onload = () => {
     const guard = new GuardFactory.Guard({
     host: 'brilique-ai.authing.cn',
-    // 你可以前往 Authing 控制台的本应用详情页查看你的 APP ID
     appId: '6883374de34869f620df2d9f',
+    redirectUri: 'https://jding25.github.io/brilique-ai-jewelry-frontend/generate.html'
+
     });
     console.log("guard instance: ", guard);
     // 挂载 Authing Guard
-
-
     document.querySelector('#loginWithRedirect').onclick = function () {
     console.log("Login with redirect triggered");
     guard.startWithRedirect();
