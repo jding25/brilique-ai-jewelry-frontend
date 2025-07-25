@@ -9,6 +9,10 @@ const authing = new AuthingFactory.Authing({
   redirectUri: 'https://jding25.github.io/brilique-ai-jewelry-frontend/authing.html',
 });
 
+console.log('Configured redirectUri:', 'https://jding25.github.io/brilique-ai-jewelry-frontend/authing.html');
+console.log('Current page URL:', window.location.href);
+console.log('Is redirect callback:', authing.isRedirectCallback());
+
 if (authing.isRedirectCallback()) {
   console.log('redirect')
   authing.handleRedirectCallback().then(loginState => {
