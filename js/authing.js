@@ -32,16 +32,17 @@
 //document.querySelector('#loginWithRedirect').onclick = function () {
 //  authing.loginWithRedirect()
 //}
+window.onload = () => {
+    const guard = new GuardFactory.Guard({
+    // 你可以前往 Authing 控制台的本应用详情页查看你的 APP ID
+    appId: '6883374de34869f620df2d9f',
+    });
+    console.log("guard instance: ", guard);
+    // 挂载 Authing Guard
 
-const guard = new GuardFactory.Guard({
-// 你可以前往 Authing 控制台的本应用详情页查看你的 APP ID
-appId: '6883374de34869f620df2d9f',
-});
-console.log("guard instance: ", guard);
-// 挂载 Authing Guard
 
-
-document.querySelector('#loginWithRedirect').onclick = function () {
-console.log("Login with redirect triggered");
-guard.startWithRedirect();
+    document.querySelector('#loginWithRedirect').onclick = function () {
+    console.log("Login with redirect triggered");
+    guard.startWithRedirect();
+    }
 }
