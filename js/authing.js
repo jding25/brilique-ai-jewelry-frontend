@@ -36,8 +36,8 @@ window.onload = () => {
     const guard = new GuardFactory.Guard({
     host: 'brilique-ai.authing.cn',
     appId: '6883374de34869f620df2d9f',
+    baseUrl: 'https://brilique-ai.authing.cn',
     redirectUri: 'https://jding25.github.io/brilique-ai-jewelry-frontend/generate.html'
-
     });
     console.log("guard instance: ", guard);
     // 挂载 Authing Guard
