@@ -32,17 +32,66 @@
 //document.querySelector('#loginWithRedirect').onclick = function () {
 //  authing.loginWithRedirect()
 //}
+
 window.onload = () => {
     const guard = new GuardFactory.Guard({
-    host: 'brilique-ai.authing.cn',
-    appId: '6883374de34869f620df2d9f',
-    baseUrl: 'https://brilique-ai.authing.cn',
-    redirectUri: 'https://jding25.github.io/brilique-ai-jewelry-frontend/generate.html'
+        host: 'brilique-ai.authing.cn',
+        appId: '6883374de34869f620df2d9f',
+        baseUrl: 'https://brilique-ai.authing.cn',
+        // No redirectUri needed for embedded mode
     });
+
     console.log("guard instance: ", guard);
-    // 挂载 Authing Guard
+
+    // Check if user is already logged in
+    guard.getLoginState().then(loginState => {
+        if (loginState) {
+            console.log('User already logged in:', loginState);
+            showUserInfo(loginState.user);
+        }
+    }).catch(error => {
+        console.log('No existing login state');
+    });
+
+    // Handle login button click - embed the guard
     document.querySelector('#loginWithRedirect').onclick = function () {
-    console.log("Login with redirect triggered");
-    guard.startWithRedirect();
+        console.log("Showing embedded login form");
+
+        // Clear the current content and show Guard
+        const container = document.querySelector('.container');
+        container.innerHTML = '<div id="guard-container"></div>';
+
+        // Start Guard in the container
+        guard.start('#guard-container').then(loginState => {
+            console.log('Login successful:', loginState);
+
+            // Restore the original UI and show user info
+            location.reload(); // Simple way to reset the UI
+
+        }).catch(error => {
+            console.error('Login error:', error);
+        });
     }
+}
+
+function showUserInfo(user) {
+    const loginDiv = document.getElementById('login-with-authing');
+    const userInfoDiv = document.getElementById('user-info');
+    const userEmail = document.getElementById('user-email');
+
+    if (loginDiv) loginDiv.style.display = 'none';
+    if (userInfoDiv) userInfoDiv.style.display = 'block';
+    if (userEmail && user.email) userEmail.textContent = 'Email: ' + user.email;
+}
+
+function logout() {
+    const guard = new GuardFactory.Guard({
+        host: 'brilique-ai.authing.cn',
+        appId: '6883374de34869f620df2d9f',
+        baseUrl: 'https://brilique-ai.authing.cn',
+    });
+
+    guard.logout().then(() => {
+        location.reload(); // Reset the page
+    });
 }
