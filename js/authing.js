@@ -34,6 +34,7 @@
 //}
 window.onload = () => {
     const guard = new GuardFactory.Guard({
+    host: 'brilique-ai.authing.cn',
     // 你可以前往 Authing 控制台的本应用详情页查看你的 APP ID
     appId: '6883374de34869f620df2d9f',
     });
