@@ -6,11 +6,11 @@ const authing = new AuthingFactory.Authing({
   appId: '6883374de34869f620df2d9f',
 
   // 控制台 -> 自建应用 -> 点击进入相应的应用 -> 认证配置 -> 登录回调 URL
-//  redirectUri: 'https://jding25.github.io/brilique-ai-jewelry-frontend/authing.html',
-  redirectUri:window.location.href,
+  redirectUri: 'https://jding25.github.io/brilique-ai-jewelry-frontend/generate.html',
+//  redirectUri:window.location.href,
 });
 
-console.log('Configured redirectUri:', 'https://jding25.github.io/brilique-ai-jewelry-frontend/authing.html');
+console.log('Configured redirectUri:', authing.redirectUri);
 console.log('Current page URL:', window.location.href);
 console.log('Is redirect callback:', authing.isRedirectCallback());
 
