@@ -15,9 +15,18 @@ console.log('Current page URL:', window.location.href);
 console.log('Is redirect callback:', authing.isRedirectCallback());
 
 if (authing.isRedirectCallback()) {
-  console.log('redirect')
+  console.log('authing.isRedirectCallback()')
   authing.handleRedirectCallback().then(loginState => {
     console.log('loginState: ', loginState)
+    const user = loginState.user;
+    console.log('loginState user is: ', user)
+    if (user) {
+      console.log('Logged in as:', user.email);
+//      document.getElementById('user-email').textContent = user.email;
+//
+//      document.getElementById('login-with-authing').style.display = 'none';
+//      document.getElementById('user-info').style.display = 'block';
+    }
 
   })
 } else {
