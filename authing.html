@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authing Email Login Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input[type="email"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #667eea;
+            border: 2px solid #e1e5e9;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .divider {
+            margin: 24px 0;
+            position: relative;
+            text-align: center;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e1e5e9;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 16px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .toggle-form {
+            color: #667eea;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 16px;
+        }
+
+        .toggle-form:hover {
+            text-decoration: underline;
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .user-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .user-info p {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #efe;
+            color: #363;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.6s ease;
+        }
+    </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.authing.co/packages/web/5.1.0/index.global.js"></script>
+
+    <script src="https://cdn.authing.co/packages/guard/5.1.5/guard.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.authing.co/packages/guard/5.1.5/guard.min.css" />
+</head>
+<body>
+<div class="container">
+    <div class="logo">B</div>
+    <h1>Welcome</h1>
+    <p class="subtitle">Sign in to your account or create a new one</p>
+
+    <div id="message-area"></div>
+
+    <!-- Login Form -->
+    <div id="login-with-authing">
+        <button class="btn btn-primary">Login With Gmail</button>
+        <div class="divider">
+            <span>or</span>
+        </div>
+        <button id="loginWithRedirect" class="btn btn-secondary">Login With Email</button>
+    </div>
+
+
+    <!-- User Info (shown after login) -->
+    <div id="user-info" style="display: none;">
+        <div class="user-info">
+            <h3>Welcome back!</h3>
+            <p id="user-email"></p>
+            <button class="btn btn-secondary" onclick="logout()" style="margin-top: 16px;">Sign Out</button>
+        </div>
+    </div>
+</div>
+<script src="js/authing.js"></script>
+</body>
+</html>

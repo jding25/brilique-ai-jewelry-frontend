@@ -242,6 +242,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Inside generate-results.js (after image is loaded into the DOM)
+document.querySelectorAll(".product-copy").forEach(img => {
+  img.addEventListener("click", () => {
+    const src = img.getAttribute("src");
+    if (src && src.trim() !== "") {
+      localStorage.setItem("selectedImage", src);
+      window.location.href = "generate-details.html";
+    }
+  });
+});
+
+
 document.getElementById("back-to-generate").addEventListener("click", () => {
   localStorage.removeItem("selectedJewelryType");
   localStorage.removeItem("selectedStyle");
