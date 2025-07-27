@@ -23,7 +23,6 @@ if (authing.isRedirectCallback()) {
     const userInfo = await authing.getUserInfo();
     console.log('loginState user is: ', userInfo.email)
     }
-  })
 } else {
   authing.getLoginState({
     ignoreCache: true // 是否忽略本地缓存，忽略后从远端实时校验用户登录状态
