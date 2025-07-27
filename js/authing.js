@@ -20,16 +20,9 @@ if (authing.isRedirectCallback()) {
   console.log('authing.isRedirectCallback()')
   authing.handleRedirectCallback().then(loginState => {
     console.log('loginState: ', loginState)
-    const user = loginState.user;
-    console.log('loginState user is: ', user)
-    if (user) {
-      console.log('Logged in as:', user.email);
-//      document.getElementById('user-email').textContent = user.email;
-//
-//      document.getElementById('login-with-authing').style.display = 'none';
-//      document.getElementById('user-info').style.display = 'block';
+    const userInfo = await authing.getUserInfo()
+    console.log('loginState user is: ', userInfo.email)
     }
-
   })
 } else {
   authing.getLoginState({
