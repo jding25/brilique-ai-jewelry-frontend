@@ -8,6 +8,8 @@ const authing = new AuthingFactory.Authing({
   // 控制台 -> 自建应用 -> 点击进入相应的应用 -> 认证配置 -> 登录回调 URL
   redirectUri: 'https://jding25.github.io/brilique-ai-jewelry-frontend/authing.html',
 //  redirectUri:window.location.href,
+
+  userPoolId: '68814af72ddc6630d1c92a51',
 });
 
 console.log('Configured redirectUri:', authing.redirectUri);
