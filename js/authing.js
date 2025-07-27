@@ -17,9 +17,9 @@ console.log('Current page URL:', window.location.href);
 console.log('Is redirect callback:', authing.isRedirectCallback());
 
 if (authing.isRedirectCallback()) {
-  console.log('authing.isRedirectCallback()')
-  authing.handleRedirectCallback().then(loginState => {
-    console.log('loginState: ', loginState)
+  console.log('authing.isRedirectCallback()');
+  authing.handleRedirectCallback().then(async (loginState) => {
+    console.log('loginState: ', loginState);
     const userInfo = await authing.getUserInfo();
     console.log('loginState user is: ', userInfo.email)
     }
@@ -28,7 +28,7 @@ if (authing.isRedirectCallback()) {
   authing.getLoginState({
     ignoreCache: true // 是否忽略本地缓存，忽略后从远端实时校验用户登录状态
   }).then(loginState => {
-    console.log('loginState: ', loginState)
+    console.log('loginState: ', loginState);
   })
 }
 
