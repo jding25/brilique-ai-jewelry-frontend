@@ -225,6 +225,7 @@
     document.querySelectorAll("img").forEach(img => {
       img.style.cursor = "pointer";
       img.addEventListener("click", () => {
+        if (img.id === "menuToggle") return;
         const src = img.getAttribute("src");
         if (src && src.trim() !== "") {
           openModal(src);
