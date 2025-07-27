@@ -20,7 +20,7 @@ if (authing.isRedirectCallback()) {
   console.log('authing.isRedirectCallback()')
   authing.handleRedirectCallback().then(loginState => {
     console.log('loginState: ', loginState)
-    const userInfo = await authing.getUserInfo()
+    const userInfo = await authing.getUserInfo();
     console.log('loginState user is: ', userInfo.email)
     }
   })
