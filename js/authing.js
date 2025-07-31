@@ -15,7 +15,7 @@ export function initializeAuthing({ redirectUri }) {
       console.log('loginState: ', loginState);
       const user = await authing.getUserInfo();
       console.log('loginState user is: ', user.email)
-      if (user && (user.email|| user.username)) {
+      if (user && (user.email|| user.username || user.phone)) {
           currentAuthingUser = user;
           localStorage.setItem("authingUser", JSON.stringify(user));
           updateUserUI(user);
@@ -44,16 +44,35 @@ export function initializeAuthing({ redirectUri }) {
   return authing;
 }
 function updateUserUI(email) {
+  console.log('updateUserUI called with:', email);
+
   const loginWrapper = document.getElementById("login-wrapper");
   const userInfoWrapper = document.getElementById("user-info-wrapper");
   const nameText = document.querySelector(".text-block-20");
   const modal = document.getElementById("auth-modal");
 
-  if (user && (user.email || user.username)) {
-      if (nameText) nameText.textContent = user.email || user.username;
-      if (loginWrapper) loginWrapper.style.display = "none";
-      if (userInfoWrapper) userInfoWrapper.style.display = "flex";
-      if (modal) modal.style.display = "none";
+  if (user && (user.email || user.username || user.phone)) {
+      const displayName = user.email || user.username || user.phone;
+      console.log('Updating UI for user:', displayName);
+
+      if (nameText) {
+        nameText.textContent = displayName;
+        console.log('Updated name text to:', displayName);
+      }
+      if (loginWrapper) {
+        loginWrapper.style.display = "none";
+        console.log('Hid login wrapper');
+      }
+      if (userInfoWrapper) {
+        userInfoWrapper.style.display = "flex";
+        console.log('Showed user info wrapper');
+      }
+      if (modal) {
+        modal.style.display = "none";
+        console.log('Hid modal');
+      }
+    } else {
+      console.log('No valid user data to display');
     }
 //  document.querySelector(".text-block-20").textContent = email;
 //  document.getElementById("login-wrapper").style.display = "none";
