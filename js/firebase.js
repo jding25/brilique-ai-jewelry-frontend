@@ -1,3 +1,5 @@
+import { initializeAuthing } from './authing.js';
+
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 const menuToggle = document.getElementById("menuToggle");
@@ -9,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const userInfoWrapper = document.getElementById("user-info-wrapper");
   const modal = document.getElementById("auth-modal");
   const googleButton = document.getElementById("google-signin");
+  const emailButton = document.getElementById("email-signin");
 
   // ✅ Google Sign-in click handler
   if (googleButton) {
@@ -24,6 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  emailButton.addEventListener("click", async () => {
+    console.log("Email button is clicked!");
+    const authing = initializeAuthing({
+      redirectUri: window.location.href // stay on this page
+    });
+    authing.loginWithRedirect();
+  });
 
   if (menuToggle && userMenu) {
     menuToggle.addEventListener("click", () => {
