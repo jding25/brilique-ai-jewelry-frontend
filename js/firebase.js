@@ -1,5 +1,3 @@
-import { initializeAuthing } from './authing.js';
-
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 const menuToggle = document.getElementById("menuToggle");
