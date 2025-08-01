@@ -45,7 +45,7 @@
 //        console.log('👤 Logged in as:', user);
 //
 //        const userInfo = { email: user.email };
-//        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+//        localStorage.setItem("userInfo", JSON.stringify(userInfo));
 //        updateUserUI(user.email);
 //
 //        console.log('💾 User info saved to session storage');
@@ -68,7 +68,7 @@
 //          console.log('👤 Found existing user:', user);
 //
 //          const userInfo = { email: user.email };
-//          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+//          localStorage.setItem("userInfo", JSON.stringify(userInfo));
 //          updateUserUI(user.email);
 //
 //          console.log('💾 Existing user session restored');
@@ -151,7 +151,7 @@
 //         console.log('🚪 Logging out...');
 //
 //         // Clear session storage
-//         sessionStorage.removeItem("userInfo");
+//         localStorage.removeItem("userInfo");
 //
 //         // Sign out from Firebase
 //         firebase.auth().signOut()
@@ -271,7 +271,7 @@ async function initializeAuth() {
 // Check both Firebase and Authing authentication state
 async function checkAuthenticationState() {
   // First check session storage
-  const userInfoRaw = sessionStorage.getItem("userInfo");
+  const userInfoRaw = localStorage.getItem("userInfo");
   if (userInfoRaw) {
     const userInfo = JSON.parse(userInfoRaw);
     console.log("Found session storage user:", userInfo);
@@ -292,7 +292,7 @@ async function checkAuthenticationState() {
         console.log('👤 Logged in as:', user);
 
         const userInfo = { email: user.email };
-        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
         updateUserUI(user.email);
         currentUser = userInfo;
 
@@ -318,7 +318,7 @@ async function checkAuthenticationState() {
           console.log('👤 Found existing user:', user);
 
           const userInfo = { email: user.email };
-          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+          localStorage.setItem("userInfo", JSON.stringify(userInfo));
           updateUserUI(user.email);
           currentUser = userInfo;
 
@@ -454,7 +454,7 @@ async function handleLogout() {
   console.log('🚪 Logging out...');
 
   // Clear session storage
-  sessionStorage.removeItem("userInfo");
+  localStorage.removeItem("userInfo");
   currentUser = null;
 
   // Sign out from Firebase
