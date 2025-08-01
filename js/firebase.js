@@ -7,6 +7,11 @@ const userMenu = document.getElementById("userMenu");
 const logoutBtn = document.getElementById("logoutBtn");
 
 document.addEventListener("DOMContentLoaded", () => {
+  const userInfoRaw = localStorage.getItem("userInfo");
+  if (userInfoRaw) {
+    const userInfo = JSON.parse(userInfoRaw);
+    console.log("Logged in as:", userInfo);
+    }
   const loginWrapper = document.getElementById("login-wrapper");
   const userInfoWrapper = document.getElementById("user-info-wrapper");
   const modal = document.getElementById("auth-modal");
