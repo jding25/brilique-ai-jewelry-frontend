@@ -7,7 +7,7 @@ const userMenu = document.getElementById("userMenu");
 const logoutBtn = document.getElementById("logoutBtn");
 
 document.addEventListener("DOMContentLoaded", () => {
-  const userInfoRaw = localStorage.getItem("userInfo");
+  const userInfoRaw = sessionStorage.getItem("userInfo");
   if (userInfoRaw) {
     const userInfo = JSON.parse(userInfoRaw);
     console.log("Logged in as:", userInfo);
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Google Sign-In error:", err);
         alert("Login failed: " + err.message);
       }
-    };
+    });
   }
 
   emailButton.addEventListener("click", async () => {
