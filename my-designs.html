@@ -21,9 +21,11 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
+  <!-- Add axios for HTTP requests -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Authing SDK-->
-  <script src="https://cdn.authing.co/packages/web/5.1.0/index.global.js"></script>
-  <script src="https://cdn.authing.co/packages/guard/5.1.5/guard.min.js"></script>
+  <script src="https://cdn.authing.co/packages/web/5.1.5/index.global.js"></script>
+<!--  <script src="https://cdn.authing.co/packages/guard/5.1.5/guard.min.js"></script>-->
   <script>
   const firebaseConfig = {
     apiKey: "AIzaSyAVuyDg3JuEeYPesCdQubz0gNQPH6U9KU0",
@@ -35,6 +37,14 @@
     measurementId: "G-QMS5PFKFWG"
   };
   firebase.initializeApp(firebaseConfig);
+
+  // Debug: Check what's available
+  console.log('🔍 Available globals:', {
+    Authing: typeof Authing,
+    AuthingFactory: typeof AuthingFactory,
+    axios: typeof axios,
+    firebase: typeof firebase
+  });
 </script>
 </head>
 <body>
