@@ -225,6 +225,14 @@ import { initializeAuthing, updateUserUI } from './authing.js';
 
 // Use compat version consistently across all pages
 const auth = firebase.auth();
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => {
+    console.log("✅ Firebase auth persistence set to LOCAL");
+  })
+  .catch((err) => {
+    console.error("❌ Failed to set Firebase auth persistence:", err);
+  });
+
 const provider = new firebase.auth.GoogleAuthProvider();
 
 // Global authing instance
