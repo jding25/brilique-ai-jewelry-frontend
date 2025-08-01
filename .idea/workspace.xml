@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="822495be-6f63-48ca-9948-6c1bdff31e3b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/js/auth-state.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/authing.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/authing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/firebase.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-designs.html" beforeDir="false" afterPath="$PROJECT_DIR$/my-designs.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

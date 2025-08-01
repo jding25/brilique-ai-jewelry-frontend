@@ -124,54 +124,54 @@
 //      }
 //}
 // authing.js
+// authing.js
 let authingUser = null;
 let authingInstance = null;
 
-const menuToggle = document.getElementById("menuToggle");
-const userMenu = document.getElementById("userMenu");
-const logoutBtn = document.getElementById("logoutBtn");
-
 export function initializeAuthing() {
-  authingInstance = new AuthingFactory.Authing({
-    appId: '6883374de34869f620df2d9f',
-    userPoolId: '68814af72ddc6630d1c92a51',
-    domain: 'https://brilique-ai.authing.cn',
-    redirectUri: window.location.href
-  });
+  // Check if AuthingFactory is available
+  if (typeof AuthingFactory === 'undefined') {
+    console.error('AuthingFactory is not loaded. Make sure the Authing SDK is properly included.');
+    return null;
+  }
 
-  // If this is a redirect from login
-  if (authingInstance.isRedirectCallback()) {
-    authingInstance.handleRedirectCallback().then(async () => {
-      const user = await authingInstance.getUserInfo();
-      authingUser = user;
-      localStorage.setItem("authingUser", JSON.stringify(user));
-      updateAuthingUI(user);
-      window.dispatchEvent(new CustomEvent("authingLogin", { detail: user }));
+  try {
+    authingInstance = new AuthingFactory.Authing({
+      appId: '6883374de34869f620df2d9f',
+      userPoolId: '68814af72ddc6630d1c92a51',
+      domain: 'https://brilique-ai.authing.cn',
+      redirectUri: window.location.href
     });
-  } else {
-    // Load from cache
-    const cached = localStorage.getItem("authingUser");
-    if (cached) {
-      try {
-        const user = JSON.parse(cached);
+
+    // If this is a redirect from login
+    if (authingInstance.isRedirectCallback()) {
+      authingInstance.handleRedirectCallback().then(async () => {
+        const user = await authingInstance.getUserInfo();
         authingUser = user;
+        // Don't use localStorage in artifacts - store in memory only
         updateAuthingUI(user);
-      } catch (e) {
-        console.error("Error parsing cached user:", e);
-        localStorage.removeItem("authingUser");
-      }
+        window.dispatchEvent(new CustomEvent("authingLogin", { detail: user }));
+      }).catch(error => {
+        console.error('Error handling redirect callback:', error);
+      });
     } else {
-      // Check session
+      // Check session without relying on localStorage
       authingInstance.getLoginState({ ignoreCache: true }).then(state => {
         const user = state?.user;
         if (user) {
           authingUser = user;
-          localStorage.setItem("authingUser", JSON.stringify(user));
           updateAuthingUI(user);
           window.dispatchEvent(new CustomEvent("authingLogin", { detail: user }));
         }
+      }).catch(error => {
+        console.error('Error getting login state:', error);
       });
     }
+
+    return authingInstance;
+  } catch (error) {
+    console.error('Error initializing Authing:', error);
+    return null;
   }
 }
 
@@ -180,7 +180,15 @@ export function loginWithEmail() {
     console.error("Authing not initialized");
     return;
   }
-  authingInstance.loginWithRedirect({ connection: "USERNAME_PASSWORD" });
+
+  try {
+    authingInstance.loginWithRedirect({
+      connection: "USERNAME_PASSWORD",
+      redirectUri: window.location.href
+    });
+  } catch (error) {
+    console.error('Error during login redirect:', error);
+  }
 }
 
 export function getAuthingUser() {
@@ -188,10 +196,17 @@ export function getAuthingUser() {
 }
 
 export function logoutAuthing() {
-  if (!authingInstance) return;
-  authingUser = null;
-  localStorage.removeItem("authingUser");
-  authingInstance.logout({ redirectUri: window.location.href });
+  if (!authingInstance) {
+    console.error("Authing not initialized");
+    return;
+  }
+
+  try {
+    authingUser = null;
+    authingInstance.logout({ redirectUri: window.location.href });
+  } catch (error) {
+    console.error('Error during logout:', error);
+  }
 }
 
 // Update the UI
@@ -200,11 +215,18 @@ function updateAuthingUI(user) {
   const userWrapper = document.getElementById("user-info-wrapper");
   const nameBlock = document.querySelector(".text-block-20");
   const avatarImg = document.querySelector(".avatar img");
+  const modal = document.getElementById("auth-modal");
 
-  const name = user.email || user.username || user.phone || "User";
-  if (nameBlock) nameBlock.textContent = name;
-  if (avatarImg) avatarImg.src = "images/default-avatar.png";
+  if (user) {
+    const name = user.email || user.username || user.phone || "User";
+    if (nameBlock) nameBlock.textContent = name;
+    if (avatarImg) avatarImg.src = user.photo || "images/default-avatar.png";
 
-  if (loginWrapper) loginWrapper.style.display = "none";
-  if (userWrapper) userWrapper.style.display = "flex";
+    if (loginWrapper) loginWrapper.style.display = "none";
+    if (userWrapper) userWrapper.style.display = "flex";
+    if (modal) modal.style.display = "none";
+  } else {
+    if (loginWrapper) loginWrapper.style.display = "flex";
+    if (userWrapper) userWrapper.style.display = "none";
+  }
 }
