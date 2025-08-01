@@ -18,6 +18,16 @@ const auth = getAuth(app);
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("my-designs-container");
 
+  const userInfoRaw = localStorage.getItem("userInfo");
+    if (userInfoRaw) {
+      const userInfo = JSON.parse(userInfoRaw);
+      console.log("Logged in as:", userInfo);
+
+      // Example: update the sidebar with user info
+      const usernameEl = document.querySelector(".text-block-20");
+      if (usernameEl) usernameEl.textContent = userInfo.name;
+    }
+
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const userId = user.email;

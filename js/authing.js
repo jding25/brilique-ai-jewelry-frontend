@@ -13,6 +13,10 @@ export function initializeAuthing({ redirectUri }) {
       console.log('loginState: ', loginState);
       const user = await authing.getUserInfo();
       console.log('loginState user is: ', user.email)
+      const userInfo = {
+        email: user.email,
+      };
+      sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
       if (user && user.email) {
         document.querySelector(".text-block-20").textContent = user.email;
         document.getElementById("login-wrapper").style.display = "none";
