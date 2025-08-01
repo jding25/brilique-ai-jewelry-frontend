@@ -1,4 +1,5 @@
 import { initializeAuthing, updateUserUI } from './authing.js';
+
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 const menuToggle = document.getElementById("menuToggle");
@@ -31,32 +32,81 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
    }
 
-  // Check for Authing redirect callback
-    try {
-      if (authing.isRedirectCallback()) {
-        console.log('✅ Handling Authing redirect callback...');
-        authing.handleRedirectCallback().then(async (loginState) => {
-          console.log('🔁 loginState:', loginState);
+//  // Check for Authing redirect callback
+//    try {
+//      if (authing.isRedirectCallback()) {
+//        console.log('✅ Handling Authing redirect callback...');
+//        authing.handleRedirectCallback().then(async (loginState) => {
+//          console.log('🔁 loginState:', loginState);
+//
+//          const user = await authing.getUserInfo();
+//          console.log('👤 Logged in as:', user);
+//
+//          const userInfo = { email: user.email };
+//          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+//          updateUserUI(user.email);
+//
+//          console.log('💾 User info saved to session storage');
+//        }).catch((err) => {
+//          console.error("❌ handleRedirectCallback error:", err);
+//          console.error("❌ Error details:", {
+//            message: err.message,
+//            stack: err.stack,
+//            name: err.name
+//          });
+//        });
+//      }
+//    } catch (callbackError) {
+//      console.error("❌ Error checking redirect callback:", callbackError);
+//    }
 
-          const user = await authing.getUserInfo();
-          console.log('👤 Logged in as:', user);
+    try {
+    if (authing.isRedirectCallback()) {
+      // Handle redirect callback
+      console.log('✅ Handling Authing redirect callback...');
+      authing.handleRedirectCallback().then(async (loginState) => {
+        console.log('🔁 loginState:', loginState);
+
+        const user = await authing.getUserInfo();
+        console.log('👤 Logged in as:', user);
+
+        const userInfo = { email: user.email };
+        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        updateUserUI(user.email);
+
+        console.log('💾 User info saved to session storage');
+      }).catch((err) => {
+        console.error("❌ handleRedirectCallback error:", err);
+        console.error("❌ Error details:", {
+          message: err.message,
+          stack: err.stack,
+          name: err.name
+        });
+      });
+    } else {
+      // Check if user is already logged in (for page refreshes/new visits)
+      console.log('🔍 Checking existing Authing login state...');
+      authing.getLoginState({ ignoreCache: false }).then(async (loginState) => {
+        console.log('🔁 Existing loginState:', loginState);
+
+        if (loginState && loginState.user) {
+          const user = loginState.user;
+          console.log('👤 Found existing user:', user);
 
           const userInfo = { email: user.email };
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           updateUserUI(user.email);
 
-          console.log('💾 User info saved to session storage');
-        }).catch((err) => {
-          console.error("❌ handleRedirectCallback error:", err);
-          console.error("❌ Error details:", {
-            message: err.message,
-            stack: err.stack,
-            name: err.name
-          });
-        });
-      }
-    } catch (callbackError) {
-      console.error("❌ Error checking redirect callback:", callbackError);
+          console.log('💾 Existing user session restored');
+        } else {
+          console.log('ℹ️ No existing Authing session found');
+        }
+      }).catch((err) => {
+        console.error("❌ Error checking login state:", err);
+      });
+    }
+  } catch (callbackError) {
+        console.error("❌ Error checking authentication state:", callbackError);
     }
 
   // ✅ Google Sign-in click handler
@@ -108,19 +158,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      firebase.auth().signOut()
-        .then(() => {
-          console.log("User signed out");
-          userMenu.style.display = "none";
-        })
-        .catch((err) => {
-          console.error("Sign-out error:", err);
-        });
-    });
-  }
+//  if (logoutBtn) {
+//    logoutBtn.addEventListener("click", () => {
+//      firebase.auth().signOut()
+//        .then(() => {
+//          console.log("User signed out");
+//          userMenu.style.display = "none";
+//        })
+//        .catch((err) => {
+//          console.error("Sign-out error:", err);
+//        });
+//    });
+//  }
 
+     // Logout functionality
+     if (logoutBtn) {
+       logoutBtn.addEventListener("click", async () => {
+         console.log('🚪 Logging out...');
+
+         // Clear session storage
+         sessionStorage.removeItem("userInfo");
+
+         // Sign out from Firebase
+         firebase.auth().signOut()
+           .then(() => {
+             console.log("✅ User signed out from Firebase");
+           })
+           .catch((err) => {
+             console.error("❌ Firebase sign-out error:", err);
+           });
+
+         // Sign out from Authing
+         if (authing) {
+           try {
+             await authing.logout();
+             console.log("✅ User signed out from Authing");
+           } catch (err) {
+             console.error("❌ Authing sign-out error:", err);
+           }
+         }
+
+         // Reset UI
+         document.getElementById("login-wrapper").style.display = "flex";
+         document.getElementById("user-info-wrapper").style.display = "none";
+         userMenu.style.display = "none";
+
+         console.log('✅ Logout complete');
+       });
+     }
   // ✅ Update UI on auth state change
   auth.onAuthStateChanged((user) => {
     const loginWrapper = document.getElementById("login-wrapper");

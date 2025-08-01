@@ -9,6 +9,13 @@
     align-items: center;
   }
 
+  #user-info-wrapper .username .text-block-20 {
+    max-width: 120px; /* Adjust based on your layout */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .modal.show { display: flex; }
   .modal.hidden { display: none; }
 
