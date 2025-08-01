@@ -32,25 +32,29 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
   emailButton.addEventListener("click", async () => {
     console.log("Email button is clicked!");
     const authing = initializeAuthing({
       redirectUri: window.location.href // stay on this page
+//        redirectUri:"https://brilique.github.io/my-designs.html"
     });
-//    authing.loginWithRedirect();
-    console.log('authing email sign in successful!! from firebase.js')
-    authing.handleRedirectCallback().then(async (loginState) => {
-      console.log('loginState: ', loginState);
-      const user = await authing.getUserInfo();
-      console.log('loginState user is: ', user.email)
-      const userInfo = {
-        email: user.email,
-      };
-      sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-     })
-//    const userAuthing = await authing.getUserInfo();
-//    console.log('loginState user is: ', userAuthing.email)
+    authing.loginWithRedirect();
+    console.log('intialize email sign in successful!! from firebase.js')
+    if (authing.isRedirectCallback()) {
+      console.log('✅ Handling Authing redirect callback...');
+      authing.handleRedirectCallback().then(async (loginState) => {
+        console.log('🔁 loginState:', loginState);
+
+        const user = await authing.getUserInfo();
+        console.log('👤 Logged in as:', user.email);
+
+        const userInfo = { email: user.email };
+        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+      }).catch((err) => {
+        console.error("❌ handleRedirectCallback error:", err);
+      });
+  }
+
   });
 
   if (menuToggle && userMenu) {
