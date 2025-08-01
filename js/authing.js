@@ -44,12 +44,12 @@
 //}
 
 export function initializeAuthing({ redirectUri }) {
-  // Use the correct Authing SDK API based on what you're loading
-  const authing = new Authing({
-    domain: 'brilique-ai.authing.cn', // Remove https:// prefix
+  // Use AuthingFactory.Authing as shown in the console output
+  const authing = new AuthingFactory.Authing({
+    domain: 'https://brilique-ai.authing.cn', // Keep the https:// prefix
     appId: '6883374de34869f620df2d9f',
     redirectUri: redirectUri || window.location.href,
-    // Remove userPoolId as it's not needed for this SDK version
+    userPoolId: '68814af72ddc6630d1c92a51', // Keep this as it may be required
   });
 
   return authing;
