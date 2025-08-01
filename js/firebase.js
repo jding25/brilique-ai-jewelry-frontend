@@ -33,10 +33,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const authing = initializeAuthing({
       redirectUri: window.location.href // stay on this page
     });
-    authing.loginWithRedirect();
+//    authing.loginWithRedirect();
     console.log('authing email sign in successful!! from firebase.js')
-    const userAuthing = await authing.getUserInfo();
-    console.log('loginState user is: ', userAuthing.email)
+    authing.handleRedirectCallback().then(async (loginState) => {
+      console.log('loginState: ', loginState);
+      const user = await authing.getUserInfo();
+      console.log('loginState user is: ', user.email)
+      const userInfo = {
+        email: user.email,
+      };
+      sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+     }
+//    const userAuthing = await authing.getUserInfo();
+//    console.log('loginState user is: ', userAuthing.email)
   });
 
   if (menuToggle && userMenu) {
