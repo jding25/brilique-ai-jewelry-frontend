@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ Google Sign-in click handler
   if (googleButton) {
     googleButton.addEventListener("click", async () => {
-      console.log("Google Sign-In button clicked");
+    console.log("Google Sign-In button clicked");
       try {
         const result = await auth.signInWithPopup(provider);
         console.log("Login success:", result.user.email);
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Google Sign-In error:", err);
         alert("Login failed: " + err.message);
       }
-    });
+    };
   }
 
   emailButton.addEventListener("click", async () => {
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         email: user.email,
       };
       sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-     }
+     })
 //    const userAuthing = await authing.getUserInfo();
 //    console.log('loginState user is: ', userAuthing.email)
   });
