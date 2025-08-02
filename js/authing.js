@@ -5,7 +5,11 @@ export function initializeAuthing({ redirectUri }) {
     appId: '6883374de34869f620df2d9f',
     redirectUri: redirectUri || window.location.href,
     userPoolId: '68814af72ddc6630d1c92a51', // Keep this as it may be required
+    setForceLogin: false,
+    isSSO: true
   });
+
+//  authing.setStorageType("local"); // ensures persistence via localStorage
 
   return authing;
 }
