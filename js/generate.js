@@ -51,11 +51,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll(".tag-button").forEach(tag => {
       tag.addEventListener("click", () => {
+        const selectedColor = "#d000ff";
         selectedStyle = tag.textContent?.toLowerCase().trim();
         console.log("Style selected:", selectedStyle);
 
-        document.querySelectorAll(".tag-button").forEach(t => t.style.border = "");
-        tag.style.border = "2px solid #6a0dad";
+        document.querySelectorAll(".tag-button").forEach(t => {
+          t.style.backgroundColor = "transparent";
+          t.style.color = "white";
+        });
+
+        // Style the selected one
+        tag.style.backgroundColor = "white";
+        tag.style.color = selectedColor;
       });
     });
 
