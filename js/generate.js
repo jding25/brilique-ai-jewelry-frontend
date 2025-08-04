@@ -44,8 +44,19 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedJewelryType = card.querySelector(".title")?.textContent?.toLowerCase().trim();
         console.log("Jewelry type selected:", selectedJewelryType);
 
-        document.querySelectorAll(".category-card").forEach(c => c.style.border = "");
-        card.style.border = "2px solid #6a0dad";
+//        document.querySelectorAll(".category-card").forEach(c => c.style.border = "");
+//        card.style.border = "2px solid #6a0dad";
+    // Reset all thumbnails
+        document.querySelectorAll(".image-thumbnail").forEach(img => {
+          img.style.border = "none";
+        });
+
+        // Style the clicked card's image
+        const image = card.querySelector(".image-thumbnail");
+        if (image) {
+          image.style.border = "2px solid white";
+//          image.style.borderRadius = "33px";
+        }
       });
     });
 
