@@ -55,7 +55,10 @@ designs.forEach(design => {
   img.style.maxWidth = "100%";
 
   // When the image is clicked, open the modal
-  img.addEventListener("click", () => openModal(design.imageUrl));
+  img.addEventListener("click", () => {
+      localStorage.setItem("selectedImage", design.imageUrl);
+      window.location.href = "generate-details.html";
+  });
 
   // Add image to container
   document.getElementById("my-designs-container").appendChild(img);

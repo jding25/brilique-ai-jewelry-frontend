@@ -7,5 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
         targetDiv.srcset = imgSrc;
       }
     }
+    localStorage.removeItem("selectedImage");
 });
 
