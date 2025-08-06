@@ -415,14 +415,14 @@ function setupEventListeners({
 }
 
 // Handle Firebase auth state changes
-function handleFirebaseAuthChange(user) {
+async function handleFirebaseAuthChange(user) {
   const loginWrapper = document.getElementById("login-wrapper");
   const userInfoWrapper = document.getElementById("user-info-wrapper");
   const avatarImg = document.querySelector("#user-info-wrapper .avatar img");
   const nameText = document.querySelector("#user-info-wrapper .username .text-block-20");
 
   if (user) {
-    console.log("Firebase auth state changed - user logged in:", user.email);
+    console.log("Firebase auth state changed - user logged in:", user.email, user.displayName, user.photoURL);
 
     if (loginWrapper) loginWrapper.style.display = "none";
     if (userInfoWrapper) userInfoWrapper.style.display = "flex";
@@ -450,6 +450,38 @@ function handleFirebaseAuthChange(user) {
     // Store user info for consistency
     currentUser = { email, displayName, photoURL };
 
+    try {
+
+    console.log("before sending request, here are the email, displayName, and photoURL");
+    console.log(user.email, displayName, photoURL);
+        const res = await fetch("https://brilique-ai-jewelry-backend-4.onrender.com/api/user/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+              email: user.email,
+              name: displayName,
+              profilePicUrl: photoURL
+            })
+        });
+        console.log("✅ User info saved to DynamoDB");
+
+        const responseText = await res.text();
+
+        if (!res.ok) {
+          console.error(`❌ Server responded with ${res.status}: ${responseText}`);
+          throw new Error(responseText);
+        }
+        let resultJson;
+          try {
+            resultJson = JSON.parse(responseText);
+            console.log("✅ Parsed JSON:", resultJson);
+          } catch (e) {
+            console.log("⚠️ Server response was not valid JSON:", responseText);
+          }
+
+      } catch (err) {
+        console.error("❌ Failed to save user to DynamoDB:", err);
+      }
   } else {
     console.log("Firebase auth state changed - user logged out");
     if (loginWrapper) loginWrapper.style.display = "flex";

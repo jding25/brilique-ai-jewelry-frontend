@@ -9,8 +9,6 @@ export function initializeAuthing({ redirectUri }) {
     isSSO: true
   });
 
-//  authing.setStorageType("local"); // ensures persistence via localStorage
-
   return authing;
 }
 
