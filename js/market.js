@@ -45,7 +45,7 @@
           <div class="div-block-6">
             <div class="div-block-4">
               <div class="designer-info">Designer<br></div>
-              <div class="designer-name">${userId}</div>
+              <div class="designer-name" style="color: black;">${userId}</div>
             </div>
             <div class="price-wrapper">
               <div class="price-tag">$${price}</div>
