@@ -92,32 +92,30 @@
         <div class="username">
           <div class="text-block-20">Hengmo Hu</div>
         </div>
-        <!--          <div class="menu-icon"><img src="images/ellipsis-vertical.svg" loading="lazy" alt=""></div>-->
         <div class="menu-icon" style="position: relative;">
           <img src="images/ellipsis-vertical.svg" id="menuToggle" style="cursor:pointer;" alt="Menu">
 
           <!-- Hidden menu -->
           <div id="userMenu" style="
-    display: none;
-    position: absolute;
-    top: 24px;
-    right: 0;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 1000;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  ">
+            display: none;
+            position: absolute;
+            top: 24px;
+            right: 0;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 1000;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          ">
             <div id="logoutBtn" style="
-  cursor: pointer;
-  color: #333;
-  white-space: nowrap;
-  padding: 5px 10px;
-">
+              cursor: pointer;
+              color: #333;
+              white-space: nowrap;
+              padding: 5px 10px;
+            ">
               Log Out
             </div>
-
           </div>
         </div>
 
@@ -140,6 +138,23 @@
         </div>
         <div class="div-block-10"><img src="images/baggage-claim-white.svg" loading="lazy" alt="" class="image-10">
           <div class="text-block-23">Ready to approve and ship in 10-20 days</div>
+        </div>
+        <div class="toggle-wrapper">
+          <div class="text-block-47">Add your design to Market</div>
+          <div class="w-embed">
+            <style>
+  .w-toggle{position:relative;display:inline-block;width:48px;height:24px}
+  .w-toggle input{position:absolute;inset:0;opacity:0;cursor:pointer}
+  .w-toggle span{position:absolute;inset:0;background:#ccc;border-radius:12px;transition:.2s}
+  .w-toggle span::before{content:'';position:absolute;left:2px;top:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+  .w-toggle input:checked+span{background:#28a745}
+  .w-toggle input:checked+span::before{transform:translateX(24px)}
+</style>
+            <label class="w-toggle">
+              <input type="checkbox">
+              <span></span>
+            </label>
+          </div>
         </div>
         <div class="div-block-12">
           <div class="text-block-27">Customize Your Design</div>

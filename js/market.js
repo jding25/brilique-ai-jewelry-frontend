@@ -36,7 +36,7 @@
       const imageUrl = d.imageUrl;
       const userId = d.userId;
       const match = userByEmail.get(userId);
-      const price = 800; // change/remove if you have real pricing
+      const price = 800;
 
       const displayName = match?.name || d.userId || "Unknown";
       const avatarUrl   = match?.profilePicUrl || "images/微信图片_20211105222712.png";
