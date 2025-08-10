@@ -18,23 +18,15 @@ const HEADERS = {
   'Content-Type': 'application/json',
   'Authorization': 'Bearer rpa_S1AKUXS4YH0V5XI9T1DO54YHOM71NRPV8OKGPOYNlpzoub'
 };
+
+
 async function uploadImage(base64Image, prompt, style, jewelryType, enhancedPrompt) {
   const user = auth.currentUser;
   if (!user) {
     alert("You must be signed in to upload images.");
     return null;
   }
-  console.log("user: ", user);
-  console.log("base64Image.length:", base64Image.length);
-  console.log("userPrompt:", prompt);
-  console.log("Uploading to backend with:", {
-    imageBase64: base64Image.slice(0, 100), // trimmed
-    userPrompt: prompt,
-    style,
-    type: jewelryType,
-    enhancedPrompt,
-    userId: user.email
-  });
+
   try {
     const res = await fetch("https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/upload", {
       method: "POST",
@@ -60,9 +52,13 @@ async function uploadImage(base64Image, prompt, style, jewelryType, enhancedProm
     const data = await res.json();
     console.log("this is data ", data);
     const url = data.imageUrl;
+    const designId = data.designId;
+    const userId = data.userId;
     console.log("this is url");
     console.log(url);
-    return url;
+    console.log("this is designId!!!!!!", designId);
+
+    return {"url": url, "designId":designId, "userId": userId};
 
   } catch (err) {
     console.error("❌ Failed to upload image", err);
@@ -75,11 +71,13 @@ async function pollForResultAndRender(jobId, divIndex, productDivs, customPrompt
   const img = div.querySelector("img.product-copy");
 
   // Check if we already have a cached result
-  const cachedUrl = localStorage.getItem(divIndex);
-  if (cachedUrl) {
+  const cachedUrl = localStorage.getItem(`image_${divIndex}`);
+  const cachedDesignId = localStorage.getItem(`designId_${divIndex}`);
+  if (cachedUrl && cachedDesignId) {
     img.src = cachedUrl;
     img.removeAttribute("srcset");
     img.removeAttribute("sizes");
+    img.setAttribute("designId", cachedDesignId);
     img.alt = "Generated Jewelry";
     img.style.display = "block";
     return;
@@ -114,13 +112,22 @@ async function pollForResultAndRender(jobId, divIndex, productDivs, customPrompt
           ? imageBase64
           : `data:image/png;base64,${imageBase64}`;
 
-        const uploadedUrl = await uploadImage(base64WithPrefix, customPrompt, style, jewelryType, enhancedPrompt);
-        console.log("uploadedUrl: ", uploadedUrl);
-        if (uploadedUrl) {
-          localStorage.setItem(divIndex, uploadedUrl);
+        const uploadResult = await uploadImage(base64WithPrefix, customPrompt, style, jewelryType, enhancedPrompt);
+
+        if (uploadResult) {
+          const uploadedUrl = uploadResult.url;
+          const designId = uploadResult.designId;
+          const userId = uploadResult.userId;
+
+          localStorage.setItem(`image_${divIndex}`, uploadedUrl);
+          localStorage.setItem(`designId_${divIndex}`, designId);
+          localStorage.setItem(`userId`, userId);
+
           img.src = uploadedUrl;
           img.removeAttribute("srcset");
           img.removeAttribute("sizes");
+          img.setAttribute("designId", designId);
+          console.log("this is image set attribute design id, ::::::", img.getAttribute('designId'));
           img.alt = "Loading Generated Jewelry";
         } else {
           img.alt = "Upload failed.";
@@ -148,9 +155,11 @@ async function generateImageForDiv(div, divIndex, jewelryType, style, customProm
   const img = div.querySelector("img.product-copy");
 
   // Check if we already have a cached result
-  const cachedUrl = localStorage.getItem(divIndex);
-  if (cachedUrl) {
+  const cachedUrl = localStorage.getItem(`image_${divIndex}`);
+  const cachedDesignId = localStorage.getItem(`designId_${divIndex}`);
+  if (cachedUrl && cachedDesignId) {
     img.src = cachedUrl;
+    img.setAttribute("designId", cachedDesignId);
     img.removeAttribute("srcset");
     img.removeAttribute("sizes");
     img.alt = "Generated Jewelry";
@@ -245,8 +254,11 @@ document.addEventListener("DOMContentLoaded", () => {
 document.querySelectorAll(".product-copy").forEach(img => {
   img.addEventListener("click", () => {
     const src = img.getAttribute("src");
-    if (src && src.trim() !== "") {
+    const designId = img.getAttribute("designId");
+    console.log("this is designId when i clickedddd, ", designId);
+    if (src && src.trim() !== "" && designId && designId.trim()!="") {
       localStorage.setItem("selectedImage", src);
+      localStorage.setItem("selectedDesignId", designId);
       window.location.href = "generate-details.html";
     }
   });

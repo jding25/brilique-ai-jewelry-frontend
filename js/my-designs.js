@@ -42,7 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("this is userId: ", userId);
         const designs = await res.json();
 
+
 designs.forEach(design => {
+  console.log("this is designnnn: ", design);
+  console.log("and designIds are like these:::::", design.designId);
   const img = document.createElement("img");
   img.src = design.imageUrl;
   img.alt = "Saved design";
@@ -50,6 +53,7 @@ designs.forEach(design => {
   img.loading = "lazy";
   img.setAttribute("sizes", "(max-width: 640px) 100vw, 640px");
   img.setAttribute("srcset", `${design.imageUrl} 500w, ${design.imageUrl} 640w`);
+  img.setAttribute("designId", design.designId);
   img.style.cursor = "pointer";
   img.style.borderRadius = "10px";
   img.style.maxWidth = "100%";
@@ -57,6 +61,7 @@ designs.forEach(design => {
   // When the image is clicked, open the modal
   img.addEventListener("click", () => {
       localStorage.setItem("selectedImage", design.imageUrl);
+      localStorage.setItem("selectedDesignId", design.designId);
       window.location.href = "generate-details.html";
   });
 
