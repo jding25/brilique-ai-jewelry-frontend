@@ -43,35 +43,36 @@ document.addEventListener("DOMContentLoaded", () => {
         const designs = await res.json();
 
 
-designs.forEach(design => {
-  console.log("this is designnnn: ", design);
-  console.log("and designIds are like these:::::", design.designId);
-  const img = document.createElement("img");
-  img.src = design.imageUrl;
-  img.alt = "Saved design";
-  img.className = "product-copy-copy";
-  img.loading = "lazy";
-  img.setAttribute("sizes", "(max-width: 640px) 100vw, 640px");
-  img.setAttribute("srcset", `${design.imageUrl} 500w, ${design.imageUrl} 640w`);
-  img.setAttribute("designId", design.designId);
-  img.style.cursor = "pointer";
-  img.style.borderRadius = "10px";
-  img.style.maxWidth = "100%";
+        designs.forEach(design => {
+          console.log("this is designnnn: ", design);
+          console.log("and designIds are like these:::::", design.designId);
+          const img = document.createElement("img");
+          img.src = design.imageUrl;
+          img.alt = "Saved design";
+          img.className = "product-copy-copy";
+          img.loading = "lazy";
+          img.setAttribute("sizes", "(max-width: 640px) 100vw, 640px");
+          img.setAttribute("srcset", `${design.imageUrl} 500w, ${design.imageUrl} 640w`);
+          img.setAttribute("designId", design.designId);
+          img.style.cursor = "pointer";
+          img.style.borderRadius = "10px";
+          img.style.maxWidth = "100%";
 
-  // When the image is clicked, open the modal
-  img.addEventListener("click", () => {
-      localStorage.setItem("selectedImage", design.imageUrl);
-      localStorage.setItem("selectedDesignId", design.designId);
-      window.location.href = "generate-details.html";
-  });
+          // When the image is clicked, open the modal
+          img.addEventListener("click", () => {
+              localStorage.setItem("selectedImage", design.imageUrl);
+              localStorage.setItem("selectedDesignId", design.designId);
+              localStorage.setItem("onMarket", design.addToMarket);
+              window.location.href = "generate-details.html";
+          });
 
-  // Add image to container
-  document.getElementById("my-designs-container").appendChild(img);
-});
+          // Add image to container
+          document.getElementById("my-designs-container").appendChild(img);
+        });
 
-      } catch (err) {
-        console.error("Failed to load saved designs:", err);
-      }
+              } catch (err) {
+                console.error("Failed to load saved designs:", err);
+              }
     }
   });
 });

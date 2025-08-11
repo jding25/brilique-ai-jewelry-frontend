@@ -423,7 +423,7 @@ async function handleFirebaseAuthChange(user) {
 
   if (user) {
     console.log("Firebase auth state changed - user logged in:", user.email, user.displayName, user.photoURL);
-
+    localStorage.setItem("userId", user.email);
     if (loginWrapper) loginWrapper.style.display = "none";
     if (userInfoWrapper) userInfoWrapper.style.display = "flex";
 
