@@ -75,7 +75,8 @@
       if (img) {
         img.style.cursor = "pointer";
         img.addEventListener("click", () => {
-          localStorage.setItem("selectedImage", imageUrl);
+          localStorage.setItem("selectedImage", d.imageUrl);
+          localStorage.setItem("selectedUserId", d.userId);
           localStorage.setItem("fromMarket", true);
           window.location.href = "generate-details.html";
         });
