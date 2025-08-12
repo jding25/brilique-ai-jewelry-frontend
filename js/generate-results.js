@@ -20,8 +20,10 @@ const HEADERS = {
 };
 
 
+let user;
+
 async function uploadImage(base64Image, prompt, style, jewelryType, enhancedPrompt) {
-  const user = auth.currentUser;
+  user = auth.currentUser;
   if (!user) {
     alert("You must be signed in to upload images.");
     return null;
@@ -259,6 +261,7 @@ document.querySelectorAll(".product-copy").forEach(img => {
     if (src && src.trim() !== "" && designId && designId.trim()!="") {
       localStorage.setItem("selectedImage", src);
       localStorage.setItem("selectedDesignId", designId);
+      localStorage.setItem("selectedUserId", user.email);
       window.location.href = "generate-details.html";
     }
   });
