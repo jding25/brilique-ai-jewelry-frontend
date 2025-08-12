@@ -603,6 +603,7 @@ body {
   display: flex;
     height:auto;
     overflow:auto;
+    min-height: 98vh;
 }
 
 .page-title {
