@@ -121,12 +121,18 @@ let imgSrc;
 let designId;
 let userId;
 let onSale;
+let fromMarket;
 
 document.addEventListener("DOMContentLoaded", async () => {
     imgSrc = localStorage.getItem("selectedImage");
     designId = localStorage.getItem("selectedDesignId");
     onSale = localStorage.getItem("onSale");
     userId = localStorage.getItem("userId");
+    fromMarket = localStorage.getItem("fromMarket");
+
+    if (fromMarket) {
+        document.querySelectorAll('.toggle-wrapper').forEach(el => el.style.display = 'none');
+    }
 
     console.log("designId is: ", designId);
     console.log("userId is: ", userId);
@@ -145,6 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     localStorage.removeItem("selectedImage");
     localStorage.removeItem("selectedDesignId");
     localStorage.removeItem("onSale");
+    localStorage.removeItem("fromMarket");
 
     // Initialize toggle button
     await initializeToggleButton();
