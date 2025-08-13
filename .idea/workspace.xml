@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="822495be-6f63-48ca-9948-6c1bdff31e3b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/generate-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/generate-details.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/LOGO-no-text-02.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/user-new.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sell.html" beforeDir="false" afterPath="$PROJECT_DIR$/sell.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +42,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/images" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
