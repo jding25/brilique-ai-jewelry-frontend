@@ -40,6 +40,8 @@ async function uploadImage(base64Image, prompt, style, jewelryType, enhancedProm
           type: jewelryType,
           enhancedPrompt: enhancedPrompt,
           userId: user.email
+          price: 280,
+          material: "Platinum"
         })
     });
     if (!res.ok) {
