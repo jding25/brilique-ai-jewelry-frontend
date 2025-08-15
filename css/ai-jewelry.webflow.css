@@ -337,7 +337,7 @@ body {
   height: 40px;
   margin-left: 10px;
   font-family: Inter, sans-serif;
-  display: none;
+  display: flex;
 }
 
 .text-block-3 {
