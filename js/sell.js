@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("div-block-17");
-
     const userId = localStorage.getItem("userId");
     console.log("this is userId: ", localStorage.getItem("userId"));
+
+    container.replaceChildren();
+
     if (userId) {
         try {
             const url = `https://brilique-ai-jewelry-backend-4.onrender.com/api/designs/designsOnMarket?userId=${encodeURIComponent(userId)}`;
