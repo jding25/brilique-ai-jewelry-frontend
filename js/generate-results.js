@@ -123,7 +123,7 @@ async function pollForResultAndRender(jobId, divIndex, productDivs, customPrompt
 
           localStorage.setItem(`image_${divIndex}`, uploadedUrl);
           localStorage.setItem(`designId_${divIndex}`, designId);
-          localStorage.setItem(`userId`, userId);
+          localStorage.setItem(`selectedUserId`, userId);
 
           img.src = uploadedUrl;
           img.removeAttribute("srcset");

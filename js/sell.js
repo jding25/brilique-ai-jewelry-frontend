@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 img.addEventListener("click", () => {
                     localStorage.setItem("selectedImage", design.imageUrl);
                     localStorage.setItem("selectedDesignId", design.designId);
+                    localStorage.setItem("selectedUserId", design.userId);
                     localStorage.setItem("onSale", true);
                     window.location.href = "generate-details.html";
                 });
