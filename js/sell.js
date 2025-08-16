@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 // Create project name div
                 const div4 = document.createElement("div");
                 div4.setAttribute("class", "designer-info-copy");
-                div4.textContent = design.projectName || "Name of the project";
+                div4.textContent = design.designName || "Name of the project";
                 div3.appendChild(div4);
 
                 // Create line break

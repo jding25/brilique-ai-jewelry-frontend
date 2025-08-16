@@ -194,8 +194,33 @@
             <div class="upload-wrapper"><img src="images/upload.svg" loading="lazy" alt="" class="image-22"></div>
             <div class="upload-info">
               <div class="form-block-5 w-form">
-                <form id="email-form" name="email-form" data-name="Email Form" method="get" class="form-4" data-wf-page-id="689acdc59b4794cd2697426d" data-wf-element-id="87819178-9f8e-c82f-bbad-08df06f6c806"><label for="name" class="field-label-4">Design Name</label><input class="text-field-3 w-input" maxlength="256" name="name" data-name="Name" placeholder="" type="text" id="name"><label for="email" class="field-label-3">Category</label><input class="text-field-4 w-input" maxlength="256" name="email" data-name="Email" placeholder="" type="email" id="email" required=""><label for="email" class="field-label-3">Material</label><input class="text-field-4 w-input" maxlength="256" name="email" data-name="Email" placeholder="" type="email" id="email" required=""><label for="email" class="field-label-2"> Price in USD</label><input class="text-field-5 w-input" maxlength="256" name="email" data-name="Email" placeholder="" type="email" id="email" required=""><label for="email" class="field-label">Product Description</label><input class="text-field-2 w-input" maxlength="256" name="email" data-name="Email" placeholder="" type="email" id="email" required="">
-                  <div class="div-block-20"><label class="w-checkbox checkbox-field-2"><input type="checkbox" id="checkbox" name="checkbox" data-name="Checkbox" class="w-checkbox-input checkbox-2"><span class="w-form-label" for="checkbox">I confirm that this design is my original work and I have the legal right to sell it.</span></label></div><input type="submit" data-wait="Please wait..." class="submit-button-2 w-button" value="Submit">
+                <form id="email-form" name="email-form" data-name="Email Form" method="get" class="form-4" data-wf-page-id="689acdc59b4794cd2697426d" data-wf-element-id="87819178-9f8e-c82f-bbad-08df06f6c806">
+                  <label for="designName" class="field-label-4">Design Name</label>
+                  <input class="text-field-3 w-input" id="designName" name="designName" type="text" maxlength="256" required>
+
+                  <label for="category" class="field-label-3">Category</label>
+                  <input class="text-field-4 w-input" id="category" name="category" type="text" maxlength="256" required>
+
+                  <label for="material" class="field-label-3">Material</label>
+                  <input class="text-field-4 w-input" id="material" name="material" type="text" maxlength="256" required>
+
+                  <label for="price" class="field-label-2">Price in USD</label>
+                  <input class="text-field-5 w-input" id="price" name="price" type="number" min="0" step="0.01" required>
+
+                  <label for="description" class="field-label">Product Description</label>
+                  <input class="text-field-2 w-input" id="description" name="description" type="text" maxlength="256" placeholder="(optional)">
+
+                  <div class="div-block-20">
+                    <label class="w-checkbox checkbox-field-2">
+                      <input type="checkbox" id="confirmOwnWork" name="confirmOwnWork" class="w-checkbox-input checkbox-2" required>
+                      <span class="w-form-label" for="confirmOwnWork">
+                          I confirm that this design is my original work and I have the legal right to sell it.
+                      </span>
+                    </label>
+                  </div>
+
+                  <input type="submit" data-wait="Please wait..." class="submit-button-2 w-button" value="Submit">
+
                 </form>
                 <div class="w-form-done"></div>
                 <div class="w-form-fail"></div>
@@ -236,6 +261,7 @@ window.Webflow.push(function () {
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=683f656bb9cf4e400cc2056f" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="js/webflow.js" type="text/javascript"></script>
   <script src = "js/firebase.js" type = "module"></script>
+  <script src = "js/sell-upload-design.js" type = "text/javascript"></script>
 
   <div id="auth-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
   background:white; padding:40px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.15); z-index:9999; max-width:400px; width:100%;">
